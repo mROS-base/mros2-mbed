@@ -1,0 +1,12 @@
+{
+    "target_overrides": {
+        "*": {
+            "platform.stdio-baud-rate": 9600,
+            "rtos.main-thread-stack-size": 8192,
+            "lwip.pbuf-pool-size": 20
+        },
+        "K64F": {
+            "platform.stdio-baud-rate": 9600
+        }
+    }
+}
