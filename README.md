@@ -60,7 +60,8 @@ docker run --rm -it --net=host ros:dashing /bin/bash \
   cd &&
   git clone https://github.com/mROS-base/mros2-host-examples &&
   cd mros2-host-examples &&
-  colcon build && source install/setup.bash &&
+  colcon build --packages-select mros2_echoback &&
+  source install/setup.bash &&
   (ros2 run mros2_echoback sub_node &) &&
   echo 'wait for sub_node connection' &&
   sleep 10 &&
