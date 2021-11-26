@@ -38,7 +38,7 @@ After that, you will find an executable binary is created in the path below.
 cmake_build/NUCLEO_F429ZI/develop/GCC_ARM/mros2-mbed.bin
 ```
 3. Connect the PC and Mbed Board with USB and LAN cables.
-4. Open Serial Console of the Mbed board. (9600bps)
+4. Open Serial Console of the Mbed board. (115200bps)
 5. Copy the executable binary above to the Mbed Board.
     (you may find it in the Nautilus file manager as NODE_F429ZI or F797ZI).
 ```
