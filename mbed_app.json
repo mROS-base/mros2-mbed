@@ -1,7 +1,7 @@
 {
     "target_overrides": {
         "*": {
-            "platform.stdio-baud-rate": 9600,
+            "platform.stdio-baud-rate": 115200,
             "rtos.main-thread-stack-size": 8192,
             "lwip.pbuf-pool-size": 20
         },

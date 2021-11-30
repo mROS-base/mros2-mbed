@@ -30,15 +30,15 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 git clone https://github.com/mROS-base/mros2-mbed
 cd mros2-mbed
 docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-   ghcr.io/armmbed/mbed-os-env \
-   /bin/bash -c "mbed-tools deploy && mbed-tools compile -m NUCLEO_F429ZI -t GCC_ARM"
+  ghcr.io/armmbed/mbed-os-env \
+  /bin/bash -c "mbed-tools deploy && mbed-tools compile -m NUCLEO_F429ZI -t GCC_ARM"
 ```
 After that, you will find an executable binary is created in the path below.
 ```
 cmake_build/NUCLEO_F429ZI/develop/GCC_ARM/mros2-mbed.bin
 ```
 3. Connect the PC and Mbed Board with USB and LAN cables.
-4. Open Serial Console of the Mbed board. (9600bps)
+4. Open Serial Console of the Mbed board. (115200bps)
 5. Copy the executable binary above to the Mbed Board.
     (you may find it in the Nautilus file manager as NODE_F429ZI or F797ZI).
 ```
@@ -55,15 +55,17 @@ ready to pub/sub message
 ```
 6. On the PC console, type the command below.
 ```
-docker run --rm -it --net=host  ros:dashing /bin/bash -c  "source /opt/ros/dashing/setup.bash &&
-       cd &&
-       git clone https://github.com/mROS-base/mros2-host-examples &&
-       cd mros2-host-examples &&
-       colcon build && source install/setup.bash &&
-       (ros2 run mros2_echoback sub_node &) &&
-       echo 'wait for sub_node connection' &&
-       sleep 10 &&
-       ros2 run mros2_echoback pub_node"
+docker run --rm -it --net=host ros:dashing /bin/bash \
+  -c "source /opt/ros/dashing/setup.bash &&
+  cd &&
+  git clone https://github.com/mROS-base/mros2-host-examples &&
+  cd mros2-host-examples &&
+  colcon build --packages-select mros2_echoback &&
+  source install/setup.bash &&
+  (ros2 run mros2_echoback sub_node &) &&
+  echo 'wait for sub_node connection' &&
+  sleep 10 &&
+  ros2 run mros2_echoback pub_node"
 ```
 Then, we can confirm the communication between the PC and Mbed board via ROS2.
 ```
