@@ -25,7 +25,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 - PC having an Ethernet port whose IP address is 192.168.11.x(x is not 2) and a docker environment.
 - Mbed board having an Ethernet port(listed above).
 2. Build Mbed executable binary using Mbed CLI2.
-(Please replace F429ZI with F797ZI if you use F767ZI)
+(Please replace F429ZI with F767ZI if you use F767ZI)
 ```
 git clone https://github.com/mROS-base/mros2-mbed
 cd mros2-mbed
@@ -40,7 +40,7 @@ cmake_build/NUCLEO_F429ZI/develop/GCC_ARM/mros2-mbed.bin
 3. Connect the PC and Mbed Board with USB and LAN cables.
 4. Open Serial Console of the Mbed board. (115200bps)
 5. Copy the executable binary above to the Mbed Board.
-    (you may find it in the Nautilus file manager as NODE_F429ZI or F797ZI).
+    (you may find it in the Nautilus file manager as NODE_F429ZI or F767ZI).
 ```
 mbed mros2 start!
 [MROS2LIB] mros2_init task start
