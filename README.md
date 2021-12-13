@@ -1,7 +1,7 @@
 # mros2-mbed
 
 mROS 2 (formally `mros2`) realizes a agent-less and lightweight runtime environment compatible with ROS 2 for embedded devices.
-mROS 2 mainly offers pub/sub APIs compatible with [rclcpp](https://docs.ros2.org/dashing/api/rclcpp/index.html) for embedded devices.
+mROS 2 mainly offers pub/sub APIs compatible with [rclcpp](https://docs.ros2.org/foxy/api/rclcpp/index.html) for embedded devices.
 
 mROS 2 consists of communication library for pub/sub APIs, RTPS protocol, UDP/IP stack, and real-time kernel.
 This repository provides the reference implementation of mROS 2 that can be operated on the Mbed enabled board.
@@ -17,8 +17,8 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
 - Host environment
+  - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
   - [ROS 2 Dashing Diademata](https://docs.ros.org/en/dashing/index.html) on Ubuntu 18.04 LTS
-  - [WiP] [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
 
 ## Getting Starred
 1. Prepare these items below.
@@ -55,8 +55,8 @@ ready to pub/sub message
 ```
 6. On the PC console, type the command below.
 ```
-docker run --rm -it --net=host ros:dashing /bin/bash \
-  -c "source /opt/ros/dashing/setup.bash &&
+docker run --rm -it --net=host ros:foxy /bin/bash \
+  -c "source /opt/ros/foxy/setup.bash &&
   cd &&
   git clone https://github.com/mROS-base/mros2-host-examples &&
   cd mros2-host-examples &&
