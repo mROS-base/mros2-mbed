@@ -60,25 +60,26 @@ docker run --rm -it --net=host ros:foxy /bin/bash \
   cd &&
   git clone https://github.com/mROS-base/mros2-host-examples &&
   cd mros2-host-examples &&
-  colcon build --packages-select mros2_echoback &&
+  colcon build --packages-select mros2_echoback_string &&
   source install/setup.bash &&
-  (ros2 run mros2_echoback sub_node &) &&
+  (ros2 run mros2_echoback_string sub_node &) &&
   echo 'wait for sub_node connection' &&
   sleep 10 &&
-  ros2 run mros2_echoback pub_node"
+  ros2 run mros2_echoback_string pub_node"
 ```
 Then, we can confirm the communication between the PC and Mbed board via ROS2.
 ```
 Cloning into 'mros2-host-examples'...
-remote: Enumerating objects: 35, done.
-remote: Counting objects: 100% (35/35), done.
-remote: Compressing objects: 100% (23/23), done.
-remote: Total 35 (delta 14), reused 29 (delta 11), pack-reused 0
-Unpacking objects: 100% (35/35), done.
-Starting >>> mros2_echoback
-Finished <<< mros2_echoback [8.14s]
+remote: Enumerating objects: 432, done.
+remote: Counting objects: 100% (432/432), done.
+remote: Compressing objects: 100% (272/272), done.
+remote: Total 432 (delta 237), reused 316 (delta 127), pack-reused 0
+Receiving objects: 100% (432/432), 42.50 KiB | 10.63 MiB/s, done.
+Resolving deltas: 100% (237/237), done.
+Starting >>> mros2_echoback_string
+Finished <<< mros2_echoback_string [5.28s]                     
 
-Summary: 1 package finished [8.38s]
+Summary: 1 package finished [5.39s]
 wait for sub_node connection
 [INFO] [pub_mros2]: Publishing msg: 'Hello, world! 0'
 [INFO] [mros2_sub]: Subscribed msg: 'Hello, world! 0'
