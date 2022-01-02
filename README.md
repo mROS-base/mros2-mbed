@@ -90,6 +90,50 @@ wait for sub_node connection
 ...(SNIPPED)...
 ```
 
+## Examples
+
+This repository contains some example applications in `examples/` to communicate with ROS 2 nodes on the host.
+Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/mros2-host-examples) repository for more detail about the host examples.
+
+You can change the example by editing [`add_executable` in CMakeLists.txt](https://github.com/mROS-base/mros2-mbed/blob/main/CMakeLists.txt).
+Of course you can also create a new program file and specify it as your own application.
+
+### echoreply_string (default)
+
+- Description:
+  - The mROS 2 node on the embedded board subscribes `string` (`std_msgs::msg::String`) message from `/to_stm` topic.
+  - And then publishes this `string` message as it is to `/to_linux` as the reply.
+- Host operation:
+  - `$ ros2 launch mros2_echoback_string launch.py`
+  - or, at two terminals:
+    - `$ ros2 run mros2_echoback_string pub_node`
+    - `$ ros2 run mros2_echoback_string sub_node`
+
+### echoreply_uint16
+
+- Description:
+  - The mROS 2 node on the embedded board subscribes `uint16` (`std_msgs::msg::UInt16`) message from `/to_stm` topic.
+  - And then publishes this `uint16` message as it is to `/to_linux` as the reply.
+- Host operation:
+  - `$ ros2 launch mros2_echoback_uint16 launch.py`
+  - or, at two terminals:
+    - `$ ros2 run mros2_echoback_uint16 pub_node`
+    - `$ ros2 run mros2_echoback_uint16 sub_node`
+
+### echoreply_float32
+
+- Description:
+  - The mROS 2 node on the embedded board subscribes `float32` (`std_msgs::msg::Float32`) message from `/to_stm` topic.
+  - And then publishes this `float32` message as it is to `/to_linux` as the reply.
+    - Note that this application just print whether the value of message is less than 0.0, between 0.0 and 1.0, or greater than 1.0.
+    - If you want to print float value in serial console, you need to add `"target.printf_lib": "std"` into mbed_app.json (see [detail](https://forums.mbed.com/t/float-printf-doesnt-work-in-desktop-version/9164)). Note that linking std lib will increase the size of Flash memory.
+- Host operation:
+  - `$ ros2 launch mros2_echoback_float32 launch.py`
+  - or, at two terminals:
+    - `$ ros2 run mros2_echoback_float32 pub_node`
+    - `$ ros2 run mros2_echoback_float32 sub_node`
+
+
 ## Submodules and Licenses
 
 The source code of this repository itself is published under [Apache License 2.0](https://github.com/mROS-base/mros2/blob/main/LICENSE).  

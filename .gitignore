@@ -1,2 +1,5 @@
 .mbedbuild
 cmake_build/
+
+mbed-os/
+mros2/
