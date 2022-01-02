@@ -92,10 +92,11 @@ wait for sub_node connection
 
 ## Examples
 
-This repository contains some example applications to communicate with ROS 2 nodes on the host.
+This repository contains some example applications in `examples/` to communicate with ROS 2 nodes on the host.
 Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/mros2-host-examples) repository for more detail about the host examples.
 
 You can change the example by editing [`add_executable` in CMakeLists.txt](https://github.com/mROS-base/mros2-mbed/blob/main/CMakeLists.txt).
+Of course you can also create a new program file and specify it as your own application.
 
 ### echoreply_string (default)
 
