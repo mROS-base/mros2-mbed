@@ -14,7 +14,6 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
     For now, these boards below are confirmed to run the example on them.  
     - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
     - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
-
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
 - Host environment
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
