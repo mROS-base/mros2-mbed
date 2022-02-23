@@ -17,7 +17,13 @@ project(${APP_TARGET})
 
 add_subdirectory(${MBED_PATH})
 
-add_executable(${APP_TARGET} examples/echoreply_string.cpp)
+if(DEFINED ENV{APPNAME})
+  set(APP_NAME $ENV{APPNAME})
+else()
+  set(APP_NAME "echoreply_string")
+endif()
+message(STATUS "APP_NAME=${APP_NAME}")
+add_executable(${APP_TARGET} examples/${APP_NAME}.cpp)
 
 target_link_libraries(${APP_TARGET} mbed-os mbed-lwipstack mros2)
 
