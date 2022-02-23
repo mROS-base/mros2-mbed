@@ -14,7 +14,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
     For now, these boards below are confirmed to run the example on them.  
     - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
     - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
-
+    - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
 - Host environment
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
@@ -25,22 +25,29 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 - PC having an Ethernet port whose IP address is 192.168.11.x(x is not 2) and a docker environment.
 - Mbed board having an Ethernet port(listed above).
 2. Build Mbed executable binary using Mbed CLI2.
-(Please replace F429ZI with F767ZI if you use F767ZI)
 ```
 git clone https://github.com/mROS-base/mros2-mbed
 cd mros2-mbed
+#(Please replace the [TARGET] with the ones as below.)
+# +-------------------+---------------+
+# | Your target board | [TARGET]      |
+# +-------------------+---------------+
+# | NUCLEO-F429ZI     | NUCLEO_F429ZI |
+# | NUCLEO-F767ZI     | NUCLEO_F767ZI |
+# | Arch Max v1.1     | ARCH_MAX      |
+# +-------------------+---------------+
 docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
   ghcr.io/armmbed/mbed-os-env \
-  /bin/bash -c "mbed-tools deploy && mbed-tools compile -m NUCLEO_F429ZI -t GCC_ARM"
+  /bin/bash -c "mbed-tools deploy && mbed-tools compile -m [TARGET] -t GCC_ARM"
 ```
 After that, you will find an executable binary is created in the path below.
 ```
-cmake_build/NUCLEO_F429ZI/develop/GCC_ARM/mros2-mbed.bin
+cmake_build/[TARGET]/develop/GCC_ARM/mros2-mbed.bin
 ```
 3. Connect the PC and Mbed Board with USB and LAN cables.
 4. Open Serial Console of the Mbed board. (115200bps)
 5. Copy the executable binary above to the Mbed Board.
-    (you may find it in the Nautilus file manager as NODE_F429ZI or F767ZI).
+   (you may find it in the Nautilus file manager as NODE_F429ZI, F767ZI or DAPLINK.)
 ```
 mbed mros2 start!
 [MROS2LIB] mros2_init task start
