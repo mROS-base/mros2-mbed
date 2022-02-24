@@ -3,3 +3,7 @@ cmake_build/
 
 mbed-os/
 mros2/
+
+# generated file for template functions in mros2-lib
+# https://github.com/mROS-base/mros2/blob/9ebc66cbc50f31d332c7d990b7f5bb478d0f35b5/src/mros2.cpp#L281
+header_includer/header_includer.hpp
