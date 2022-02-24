@@ -36,9 +36,7 @@ cd mros2-mbed
 # | NUCLEO-F767ZI     | NUCLEO_F767ZI |
 # | Arch Max v1.1     | ARCH_MAX      |
 # +-------------------+---------------+
-docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-  ghcr.io/armmbed/mbed-os-env \
-  /bin/bash -c "mbed-tools deploy && mbed-tools compile -m [TARGET] -t GCC_ARM"
+./build.bash all [TARGET] echoreply_string
 ```
 After that, you will find an executable binary is created in the path below.
 ```
@@ -102,7 +100,7 @@ wait for sub_node connection
 This repository contains some example applications in [workspace/](workspace/) to communicate with ROS 2 nodes on the host.
 Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/mros2-host-examples) repository for more detail about the host examples.
 
-You can change the example by editing [`app_name` in CMakeLists.txt#L23](https://github.com/mROS-base/mros2-mbed/blob/main/CMakeLists.txt#L23).
+You can switch the example by specifying the third argument of `build.bash`.
 Of course you can also create a new program file and specify it as your own application.
 
 ### echoreply_string (default)
