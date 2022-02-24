@@ -23,7 +23,7 @@ else()
   set(APP_NAME "echoreply_string")
 endif()
 message(STATUS "APP_NAME=${APP_NAME}")
-add_executable(${APP_TARGET} examples/${APP_NAME}.cpp)
+add_executable(${APP_TARGET} workspace/${APP_NAME}/app.cpp)
 
 target_link_libraries(${APP_TARGET} mbed-os mbed-lwipstack mros2)
 
