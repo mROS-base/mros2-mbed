@@ -46,23 +46,41 @@ echo "INFO: build setting"
 echo "      TARGET=${TARGET}"
 echo "      APPNAME=${APPNAME}"
 
-### run mbed-tools ###
-### deploy mbed environment ###
+
+### build a project ###
+# deploy mbed environment by mbed-tools
 docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
   -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
   /bin/bash -c "mbed-tools deploy"
 
-### configure mbed project ###
+# configure mbed project by mbed-tools
 docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
   -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
   /bin/bash -c "mbed-tools configure -m ${TARGET} -t GCC_ARM"
 
-### set the build parameter ###
+# generate of header file for template functions of MsgType
+MROS2DIR=../mros2
+TEMPLATESGEN_FILE=${MROS2DIR}/mros2_header_generator/templates_generator.py
+
+echo "INFO: generate header file for template functions of MsgType"
+touch header_includer/header_includer.hpp
+cd workspace
+python ${TEMPLATESGEN_FILE} ${MROS2DIR} ${APPNAME}
+if [ $? -eq 0 ];
+then
+  echo "INFO: header fille for template function of ${APPNAME}'s MsgType is successfully generated"
+else
+  echo "ERROR: failed to generate header fille for template function of ${APPNAME}'s MsgType"
+  exit 1
+fi
+cd ..
+
+# set the build parameter
 docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
   -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
   /bin/bash -c "cmake -S . -B cmake_build/${TARGET}/develop/GCC_ARM -GNinja"
 
-### build ###
+# build (switch according to arg1)
 if [ ${MAKECMD} = "all" ];
 then
   docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
