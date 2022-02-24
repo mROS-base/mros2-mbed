@@ -16,7 +16,7 @@
 
 #include "mbed.h"
 #include "mros2.h"
-#include "std_msgs/msg/u_int16.hpp"
+#include "geometry_msgs/msg/pose.hpp"
 #include "EthernetInterface.h"
 
 #define IP_ADDRESS ("192.168.11.2") /* IP address */
@@ -24,9 +24,9 @@
 #define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
 
 
-void userCallback(std_msgs::msg::UInt16 *msg)
+void userCallback(geometry_msgs::msg::Pose *msg)
 {
-  printf("subscribed msg: '%d'\r\n", msg->data);
+  MROS2_INFO("subscribed Pose msg!!");
 }
 
 int main() {
@@ -39,10 +39,10 @@ int main() {
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
-  mros2::Node node = mros2::Node::create_node("mros2_node");
-  mros2::Subscriber sub = node.create_subscription<std_msgs::msg::UInt16>("to_stm", 10, userCallback);
-
-  MROS2_INFO("ready to pub/sub message\r\n");
+  mros2::Node node = mros2::Node::create_node("sub_pose");
+  mros2::Subscriber sub = node.create_subscription<geometry_msgs::msg::Pose>("cmd_vel", 10, userCallback);
+  
+  MROS2_INFO("ready to pub/sub message");
 
   mros2::spin();
   return 0;

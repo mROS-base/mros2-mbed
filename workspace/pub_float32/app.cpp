@@ -19,10 +19,10 @@
 #include "std_msgs/msg/float32.hpp"
 #include "EthernetInterface.h"
 
-
 #define IP_ADDRESS ("192.168.11.2") /* IP address */
 #define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
 #define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
+
 
 int main() {
   EthernetInterface network;
@@ -62,7 +62,7 @@ int main() {
     publish_count = publish_count + 0.1;
     osDelay(1000);
   }
-  mros2::spin();
 
+  mros2::spin();
   return 0;
 }

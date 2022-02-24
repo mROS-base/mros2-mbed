@@ -16,18 +16,14 @@
 
 #include "mbed.h"
 #include "mros2.h"
-#include "std_msgs/msg/u_int16.hpp"
+#include "geometry_msgs/msg/vector3.hpp"
+#include "geometry_msgs/msg/twist.hpp"
 #include "EthernetInterface.h"
 
 #define IP_ADDRESS ("192.168.11.2") /* IP address */
 #define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
 #define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
 
-
-void userCallback(std_msgs::msg::UInt16 *msg)
-{
-  printf("subscribed msg: '%d'\r\n", msg->data);
-}
 
 int main() {
   EthernetInterface network;
@@ -40,9 +36,29 @@ int main() {
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
   mros2::Node node = mros2::Node::create_node("mros2_node");
-  mros2::Subscriber sub = node.create_subscription<std_msgs::msg::UInt16>("to_stm", 10, userCallback);
-
+  mros2::Publisher pub = node.create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
   MROS2_INFO("ready to pub/sub message\r\n");
+
+  geometry_msgs::msg::Vector3 linear;
+  geometry_msgs::msg::Vector3 angular;
+  geometry_msgs::msg::Twist twist;
+
+  auto publish_count = 0;
+  while (1)
+  {
+    linear.x = publish_count/1.0;
+    linear.y = publish_count/1.0;
+    linear.z = publish_count/1.0;  
+    angular.x = publish_count/1.0;
+    angular.y = publish_count/1.0;
+    angular.z = publish_count/1.0;
+    twist.linear = linear;
+    twist.angular = angular;
+    MROS2_INFO("publishing Twist msg!!");
+    pub.publish(twist);
+    publish_count++;
+    osDelay(1000);
+  }
 
   mros2::spin();
   return 0;

@@ -49,7 +49,7 @@ int main() {
   sub = node.create_subscription<std_msgs::msg::String>("to_stm", 10, userCallback);
 
   MROS2_INFO("ready to pub/sub message\r\n");
-  mros2::spin();
 
+  mros2::spin();
   return 0;
 }

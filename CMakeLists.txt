@@ -37,6 +37,7 @@ set(RTPS_CONFIG_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 target_include_directories(
   mros2-mbed
   PRIVATE ${RTPS_CONFIG_INCLUDE_DIR}
+  PRIVATE mros2_msgs
 )
 
 mbed_set_post_build(${APP_TARGET})
