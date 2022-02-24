@@ -19,6 +19,11 @@
 #include "std_msgs/msg/string.hpp"
 #include "EthernetInterface.h"
 
+#define IP_ADDRESS ("192.168.11.2") /* IP address */
+#define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
+#define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
+
+
 mros2::Subscriber sub;
 mros2::Publisher pub;
 
@@ -28,10 +33,6 @@ void userCallback(std_msgs::msg::String *msg)
   printf("publishing msg: '%s'\r\n", msg->data.c_str());
   pub.publish(*msg);
 }
-
-#define IP_ADDRESS ("192.168.11.2") /* IP address */
-#define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
-#define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
 
 int main() {
   EthernetInterface network;
@@ -46,7 +47,6 @@ int main() {
   mros2::Node node = mros2::Node::create_node("mros2_node");
   pub = node.create_publisher<std_msgs::msg::String>("to_linux", 10);
   sub = node.create_subscription<std_msgs::msg::String>("to_stm", 10, userCallback);
-  std_msgs::msg::String msg;
 
   MROS2_INFO("ready to pub/sub message\r\n");
   mros2::spin();
