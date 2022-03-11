@@ -63,9 +63,8 @@ MROS2DIR=../mros2
 TEMPLATESGEN_FILE=${MROS2DIR}/mros2_header_generator/templates_generator.py
 
 echo "INFO: generate header file for template functions of MsgType"
-touch header_includer/header_includer.hpp
 cd workspace
-python ${TEMPLATESGEN_FILE} ${MROS2DIR} ${APPNAME}
+python ${TEMPLATESGEN_FILE} ${APPNAME}
 if [ $? -eq 0 ];
 then
   echo "INFO: header fille for template function of ${APPNAME}'s MsgType is successfully generated"

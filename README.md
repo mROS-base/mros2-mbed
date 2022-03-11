@@ -186,18 +186,18 @@ $ cd workspace
 $ python ../mros2/mros2_header_generator/header_generator.py geometry_msgs/msg/Twist.msg
 ```
 
-Make sure header files for custom MsgType are generated in `custom_msgss/`
+Make sure header files for custom MsgType are generated in `custom_msgs/`
 
 ```
-$ ls -R ../mros2_msgs/
-../mros2_msgs/:
+$ ls -R custom_msgs/
+custom_msgs/:
 geometry_msgs
 
-../mros2_msgs/geometry_msgs:
+custom_msgs/geometry_msgs:
 msg
 
-../mros2_msgs/geometry_msgs/msg:
-twist.hpp  vector3.hpp
+custom_msgs/geometry_msgs/msg:
+twist.hpp  vector3.hpp  Twist.msg  Vector3.msg
 ```
 
 You can now use them in your applicaton like this.
