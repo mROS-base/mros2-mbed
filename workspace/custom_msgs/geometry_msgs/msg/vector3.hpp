@@ -1,5 +1,5 @@
-#ifndef _GEOMETRY_MSGS_MSG_POINT_H
-#define _GEOMETRY_MSGS_MSG_POINT_H
+#ifndef _GEOMETRY_MSGS_MSG_VECTOR3_H
+#define _GEOMETRY_MSGS_MSG_VECTOR3_H
 
 #include <iostream>
 #include <string>
@@ -10,7 +10,7 @@ namespace geometry_msgs
 {
 namespace msg
 {
-class Point
+class Vector3
 {
 public:
   uint32_t cntPub = 0;
@@ -153,11 +153,13 @@ public:
   }
 
   uint32_t getTotalSize(){
-    return cntPub ;
+    uint32_t tmpCntPub = cntPub;
+    cntPub = 0;
+    return tmpCntPub ;
   }
 
 private:
-  std::string type_name = "geometry_msgs::msg::dds_::Point";
+  std::string type_name = "geometry_msgs::msg::dds_::Vector3";
 };
 };
 }
@@ -165,10 +167,10 @@ private:
 namespace message_traits
 {
 template<>
-struct TypeName<geometry_msgs::msg::Point*> {
+struct TypeName<geometry_msgs::msg::Vector3*> {
   static const char* value()
   {
-    return "geometry_msgs::msg::dds_::Point_";
+    return "geometry_msgs::msg::dds_::Vector3_";
   }
 };
 }

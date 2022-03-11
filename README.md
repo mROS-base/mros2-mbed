@@ -141,7 +141,7 @@ Of course you can also create a new program file and specify it as your own appl
   - `$ ros2 launch mros2_sub_twist sub.launch.py`
   - or, `ros2 run mros2_sub_twist sub_node`
 
-### pub_twist
+### sub_pose
 
 - Description:
   - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `cmd_vel` topic.
@@ -151,8 +151,6 @@ Of course you can also create a new program file and specify it as your own appl
   - or, `ros2 run mros2_pub_pose pub_node`
 
 ## Generating header files for custom MsgTypes
-
-_Note: This feature is still in progress. We plan to improve usability for this procedure._
 
 You can use almost any [built-in-types in ROS 2](https://docs.ros.org/en/rolling/Concepts/About-ROS-Interfaces.html#field-types) on the embedded device.
 
@@ -179,29 +177,16 @@ float64 y
 float64 z
 ```
 
-### Prepare msg_settings.json files
-
-Next, create or edit `msg_settings.json` file under `workspace/custom_msgs/geometry_msgs/` directory. In general, you need to set all paths to `pubsubMsgs`'s value about each .msg files which you want to use. Note that you do not need to add additional paths in this example since `Vector3` will be located in the same hierarchy as `Twist`.
-
-```
-$ cat workspace/custom_msgs/geometry_msgs/msg_settings.json
-{
-    "pubsubMsgs": [
-        "geometry_msgs/msg/Twist.msg"
-    ]
-}
-```
-
 ### Generate header files
 
 To generate header files for `Twist` and `Vector3`, run the following command in `workspace/`.
 
 ```
 $ cd workspace
-$ python ../mros2/mros2_header_generator/header_generator.py ../mros2 custom_msgs/geometry_msgs
+$ python ../mros2/mros2_header_generator/header_generator.py geometry_msgs/msg/Twist.msg
 ```
 
-Make sure header files for custom MsgType are generated in `../mros2_msgs/`
+Make sure header files for custom MsgType are generated in `custom_msgss/`
 
 ```
 $ ls -R ../mros2_msgs/

@@ -1,10 +1,10 @@
-#ifndef _GEOMETRY_MSGS_MSG_POSE_H
-#define _GEOMETRY_MSGS_MSG_POSE_H
+#ifndef _GEOMETRY_MSGS_MSG_TWIST_H
+#define _GEOMETRY_MSGS_MSG_TWIST_H
 
 #include <iostream>
 #include <string>
-#include "geometry_msgs/msg/point.hpp"
-#include "geometry_msgs/msg/quaternion.hpp"
+#include "geometry_msgs/msg/vector3.hpp"
+#include "geometry_msgs/msg/vector3.hpp"
 
 using namespace std;
 
@@ -12,17 +12,17 @@ namespace geometry_msgs
 {
 namespace msg
 {
-class Pose
+class Twist
 {
 public:
   uint32_t cntPub = 0;
   uint32_t cntSub = 0;
 
     
-  geometry_msgs::msg::Point position
+  geometry_msgs::msg::Vector3 linear
 ;
     
-  geometry_msgs::msg::Quaternion orientation;
+  geometry_msgs::msg::Vector3 angular;
   
 
   uint32_t copyToBuf(uint8_t *addrPtr)
@@ -33,7 +33,7 @@ public:
     
     
     
-    tmpPub = position
+    tmpPub = linear
 .copyToBuf(addrPtr);
     cntPub += tmpPub;
     addrPtr += tmpPub;
@@ -42,7 +42,7 @@ public:
     
     
     
-    tmpPub = orientation.copyToBuf(addrPtr);
+    tmpPub = angular.copyToBuf(addrPtr);
     cntPub += tmpPub;
     addrPtr += tmpPub;
     
@@ -60,7 +60,7 @@ public:
     
     
     
-    tmpSub = position
+    tmpSub = linear
 .copyFromBuf(addrPtr);
     cntSub += tmpSub;
     addrPtr += tmpSub;
@@ -70,7 +70,7 @@ public:
     
     
     
-    tmpSub = orientation.copyFromBuf(addrPtr);
+    tmpSub = angular.copyFromBuf(addrPtr);
     cntSub += tmpSub;
     addrPtr += tmpSub;
     
@@ -94,11 +94,13 @@ public:
   }
 
   uint32_t getTotalSize(){
-    return cntPub ;
+    uint32_t tmpCntPub = cntPub;
+    cntPub = 0;
+    return tmpCntPub ;
   }
 
 private:
-  std::string type_name = "geometry_msgs::msg::dds_::Pose";
+  std::string type_name = "geometry_msgs::msg::dds_::Twist";
 };
 };
 }
@@ -106,10 +108,10 @@ private:
 namespace message_traits
 {
 template<>
-struct TypeName<geometry_msgs::msg::Pose*> {
+struct TypeName<geometry_msgs::msg::Twist*> {
   static const char* value()
   {
-    return "geometry_msgs::msg::dds_::Pose_";
+    return "geometry_msgs::msg::dds_::Twist_";
   }
 };
 }
