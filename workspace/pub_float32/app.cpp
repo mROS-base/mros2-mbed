@@ -31,6 +31,7 @@ int main() {
   nsapi_size_or_error_t result = network.connect();
 
   printf("mbed mros2 start!\r\n");
+  printf("app name: pub_float32\r\n");
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
