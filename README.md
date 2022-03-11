@@ -150,6 +150,17 @@ Of course you can also create a new program file and specify it as your own appl
   - `$ ros2 launch mros2_pub_pose pub.launch.py`
   - or, `ros2 run mros2_pub_pose pub_node`
 
+## Files for the application
+
+On this platform, the mros2 application consists of the following files:
+
+- app.cpp: 
+  - main source of the application
+  - note that the file name must be this in order to generate the templates of pub/sub functions in the build step.
+- templates.hpp:
+  - the templates of pub/sub functions
+  - this file will be automatically generated/modified during the build step, so you do not have to care about this file
+
 ## Generating header files for custom MsgTypes
 
 You can use almost any [built-in-types in ROS 2](https://docs.ros.org/en/rolling/Concepts/About-ROS-Interfaces.html#field-types) on the embedded device.
