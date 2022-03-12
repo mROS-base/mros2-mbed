@@ -36,9 +36,7 @@ cd mros2-mbed
 # | NUCLEO-F767ZI     | NUCLEO_F767ZI |
 # | Arch Max v1.1     | ARCH_MAX      |
 # +-------------------+---------------+
-docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-  ghcr.io/armmbed/mbed-os-env \
-  /bin/bash -c "mbed-tools deploy && mbed-tools compile -m [TARGET] -t GCC_ARM"
+./build.bash all [TARGET] echoreply_string
 ```
 After that, you will find an executable binary is created in the path below.
 ```
@@ -99,10 +97,10 @@ wait for sub_node connection
 
 ## Examples
 
-This repository contains some example applications in `examples/` to communicate with ROS 2 nodes on the host.
+This repository contains some example applications in [workspace/](workspace/) to communicate with ROS 2 nodes on the host.
 Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/mros2-host-examples) repository for more detail about the host examples.
 
-You can change the example by editing [`add_executable` in CMakeLists.txt](https://github.com/mROS-base/mros2-mbed/blob/main/CMakeLists.txt).
+You can switch the example by specifying the third argument of `build.bash`.
 Of course you can also create a new program file and specify it as your own application.
 
 ### echoreply_string (default)
@@ -111,35 +109,121 @@ Of course you can also create a new program file and specify it as your own appl
   - The mROS 2 node on the embedded board subscribes `string` (`std_msgs::msg::String`) message from `/to_stm` topic.
   - And then publishes this `string` message as it is to `/to_linux` as the reply.
 - Host operation:
-  - `$ ros2 launch mros2_echoback_string launch.py`
+  - `$ ros2 launch mros2_echoback_string pubsub.launch.py`
   - or, at two terminals:
     - `$ ros2 run mros2_echoback_string pub_node`
     - `$ ros2 run mros2_echoback_string sub_node`
 
-### echoreply_uint16
+### pub_float32
 
 - Description:
-  - The mROS 2 node on the embedded board subscribes `uint16` (`std_msgs::msg::UInt16`) message from `/to_stm` topic.
-  - And then publishes this `uint16` message as it is to `/to_linux` as the reply.
-- Host operation:
-  - `$ ros2 launch mros2_echoback_uint16 launch.py`
-  - or, at two terminals:
-    - `$ ros2 run mros2_echoback_uint16 pub_node`
-    - `$ ros2 run mros2_echoback_uint16 sub_node`
-
-### echoreply_float32
-
-- Description:
-  - The mROS 2 node on the embedded board subscribes `float32` (`std_msgs::msg::Float32`) message from `/to_stm` topic.
-  - And then publishes this `float32` message as it is to `/to_linux` as the reply.
+  - The mROS 2 node on the embedded board publishes `float32` (`std_msgs::msg::Float32`) message to `/to_linux` topic.
     - Note that this application just print whether the value of message is less than 0.0, between 0.0 and 1.0, or greater than 1.0.
     - If you want to print float value in serial console, you need to add `"target.printf_lib": "std"` into mbed_app.json (see [detail](https://forums.mbed.com/t/float-printf-doesnt-work-in-desktop-version/9164)). Note that linking std lib will increase the size of Flash memory.
 - Host operation:
-  - `$ ros2 launch mros2_echoback_float32 launch.py`
-  - or, at two terminals:
-    - `$ ros2 run mros2_echoback_float32 pub_node`
-    - `$ ros2 run mros2_echoback_float32 sub_node`
+  - `$ ros2 launch mros2_sub_float32 sub.launch.py`
+  - or, `ros2 run mros2_sub_float32 sub_node`
 
+### sub_uint16
+
+- Description:
+  - The mROS 2 node on the embedded board subscribes `uint16` (`std_msgs::msg::UInt16`) message from `/to_stm` topic.
+- Host operation:
+  - `$ ros2 launch mros2_pub_uint16 pub.launch.py`
+  - or, `$ ros2 run mros2_pub_uint16 pub_node`
+
+### pub_twist
+
+- Description:
+  - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `cmd_vel` topic.
+  - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
+- Host operation:
+  - `$ ros2 launch mros2_sub_twist sub.launch.py`
+  - or, `ros2 run mros2_sub_twist sub_node`
+
+### sub_pose
+
+- Description:
+  - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `cmd_vel` topic.
+  - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
+- Host operation:
+  - `$ ros2 launch mros2_pub_pose pub.launch.py`
+  - or, `ros2 run mros2_pub_pose pub_node`
+
+## Files for the application
+
+On this platform, the mros2 application consists of the following files:
+
+- app.cpp: 
+  - main source of the application
+  - note that the file name must be this in order to generate the templates of pub/sub functions in the build step.
+- templates.hpp:
+  - the templates of pub/sub functions
+  - this file will be automatically generated/modified during the build step, so you do not have to care about this file
+
+## Generating header files for custom MsgTypes
+
+You can use almost any [built-in-types in ROS 2](https://docs.ros.org/en/rolling/Concepts/About-ROS-Interfaces.html#field-types) on the embedded device.
+
+In additon, you can define a customized message type (e.g., `Twist.msg`) in the same way as in ROS 2, and use its header file for your application. This section describes how to generate header files for your own MsgTypes (`geometry_msgs::msg::Twist` as an example).
+
+### Prepare .msg files
+
+`.msg` files are simple text files that describe the fields of a ROS message (see [About ROS 2 interface](https://docs.ros.org/en/rolling/Concepts/About-ROS-Interfaces.html)). In mros2, they are used to generate header files for messages in embedded applications.
+
+Prepare `Twist.msg` file and make sure it is in `workspace/custom_msgs/geometry_msgs/msg/`.
+
+```
+$ cat workspace/custom_msgs/geometry_msgs/msg/Twist.msg
+geometry_msgs/msg/Vector3 linear
+geometry_msgs/msg/Vector3 angular
+```
+
+In this example, `Twist` has a nested structure with `Vector3` as a child element. So you also need to prepare its file.
+
+```
+$ cat workspace/custom_msgs/geometry_msgs/msg/Vector3.msg
+float64 x
+float64 y
+float64 z
+```
+
+### Generate header files
+
+To generate header files for `Twist` and `Vector3`, run the following command in `workspace/`.
+
+```
+$ cd workspace
+$ python ../mros2/mros2_header_generator/header_generator.py geometry_msgs/msg/Twist.msg
+```
+
+Make sure header files for custom MsgType are generated in `custom_msgs/`
+
+```
+$ ls -R custom_msgs/
+custom_msgs/:
+geometry_msgs
+
+custom_msgs/geometry_msgs:
+msg
+
+custom_msgs/geometry_msgs/msg:
+twist.hpp  vector3.hpp  Twist.msg  Vector3.msg
+```
+
+You can now use them in your applicaton like this.
+
+```
+#include "mros2.hpp"
+#include "geometry_msgs/msg/vector3.hpp"
+#include "geometry_msgs/msg/twist.hpp"
+
+int main(int argc, char * argv[])
+{
+<snip.>
+  pub = node.create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+<snip.>
+```
 
 ## Submodules and Licenses
 

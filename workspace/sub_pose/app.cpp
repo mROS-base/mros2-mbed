@@ -16,22 +16,18 @@
 
 #include "mbed.h"
 #include "mros2.h"
-#include "std_msgs/msg/u_int16.hpp"
+#include "geometry_msgs/msg/pose.hpp"
 #include "EthernetInterface.h"
-
-mros2::Subscriber sub;
-mros2::Publisher pub;
-
-void userCallback(std_msgs::msg::UInt16 *msg)
-{
-  printf("subscribed msg: '%d'\r\n", msg->data);
-  printf("publishing msg: '%d'\r\n", msg->data);
-  pub.publish(*msg);
-}
 
 #define IP_ADDRESS ("192.168.11.2") /* IP address */
 #define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
 #define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
+
+
+void userCallback(geometry_msgs::msg::Pose *msg)
+{
+  MROS2_INFO("subscribed Pose msg!!");
+}
 
 int main() {
   EthernetInterface network;
@@ -40,16 +36,15 @@ int main() {
   nsapi_size_or_error_t result = network.connect();
 
   printf("mbed mros2 start!\r\n");
+  printf("app name: sub_pose\r\n");
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
-  mros2::Node node = mros2::Node::create_node("mros2_node");
-  pub = node.create_publisher<std_msgs::msg::UInt16>("to_linux", 10);
-  sub = node.create_subscription<std_msgs::msg::UInt16>("to_stm", 10, userCallback);
-  std_msgs::msg::UInt16 msg;
+  mros2::Node node = mros2::Node::create_node("sub_pose");
+  mros2::Subscriber sub = node.create_subscription<geometry_msgs::msg::Pose>("cmd_vel", 10, userCallback);
+  
+  MROS2_INFO("ready to pub/sub message");
 
-  MROS2_INFO("ready to pub/sub message\r\n");
   mros2::spin();
-
   return 0;
 }
