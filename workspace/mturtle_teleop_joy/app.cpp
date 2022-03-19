@@ -32,11 +32,11 @@ int main() {
   nsapi_size_or_error_t result = network.connect();
 
   printf("mbed mros2 start!\r\n");
-  printf("app name: mturtle_teleop\r\n");
+  printf("app name: mturtle_teleop_joy\r\n");
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
-  mros2::Node node = mros2::Node::create_node("mturtle_teleop");
+  mros2::Node node = mros2::Node::create_node("mturtle_teleop_joy");
   mros2::Publisher pub = node.create_publisher<geometry_msgs::msg::Twist>("turtle1/cmd_vel", 10);
   MROS2_INFO("ready to pub/sub message\r\n");
 
