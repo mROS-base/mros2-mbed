@@ -56,10 +56,49 @@ int main() {
 
   MROS2_INFO("publish Twist msg to turtlesim according to the input from Joystick module");
   float initialA = inputA0.read();
+  pollfh fds[1];
+  fds[0].fh = mbed::mbed_file_handle(STDIN_FILENO);
+  fds[0].events = POLLIN;
+  bool console_mode = false;
+
   while (1)
   {
-    linear.x = COEFF_LIN * (inputA0.read() - initialA);
-    angular.z = COEFF_ANG * (inputA1.read() - initialA);
+    if (console_mode || poll(fds, 1, 0))
+    {
+        console_mode = true;
+        if (poll(fds, 1, 0))
+        {
+           char c;
+            mbed::mbed_file_handle(STDIN_FILENO)->read(&c, 1);
+            switch (c)
+            {
+                case 'w':
+                    linear.x =   COEFF_LIN * 5.0;
+                    break;
+                case 's':
+                    linear.x = 0.0;
+                    angular.z = 0.0;
+                    break;
+                case 'x':
+                    linear.x =   -COEFF_LIN * 5.0;
+                    break;
+                case 'a':
+                    angular.z =   COEFF_ANG * 5.0;
+                    break;
+                case 'd':
+                    angular.z =  -COEFF_ANG * 5.0;
+                    break;
+                case 'q':
+                    linear.x = 0.0;
+                    angular.z = 0.0;
+                    console_mode = false;
+                    break;
+            }
+        }
+    } else {
+        linear.x = COEFF_LIN * (inputA0.read() - initialA);
+        angular.z = COEFF_ANG * (inputA1.read() - initialA);
+    }
     twist.linear = linear;
     twist.angular = angular;
     pub.publish(twist);
