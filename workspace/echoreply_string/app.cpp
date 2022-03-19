@@ -48,7 +48,7 @@ int main() {
   mros2::Node node = mros2::Node::create_node("mros2_node");
   pub = node.create_publisher<std_msgs::msg::String>("to_linux", 10);
   sub = node.create_subscription<std_msgs::msg::String>("to_stm", 10, userCallback);
-
+  osDelay(100);
   MROS2_INFO("ready to pub/sub message\r\n");
 
   mros2::spin();
