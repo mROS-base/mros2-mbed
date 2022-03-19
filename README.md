@@ -20,7 +20,8 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
   - [ROS 2 Dashing Diademata](https://docs.ros.org/en/dashing/index.html) on Ubuntu 18.04 LTS
 
-## Getting Starred
+## Getting Started
+
 1. Prepare these items below.
 - PC having an Ethernet port whose IP address is 192.168.11.x(x is not 2) and a docker environment.
 - Mbed board having an Ethernet port(listed above).
