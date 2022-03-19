@@ -16,6 +16,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
     - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
     - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
+  - check the Mbed website for [the boards list](https://os.mbed.com/platforms/?q=&Mbed+OS+6=Bare+metal&Mbed+OS+6=RTOS&Communication=Ethernet) where mros2 may work. Please let us know if you find a new board that can work as mros2 enabled device.
 - Host environment
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
   - [ROS 2 Dashing Diademata](https://docs.ros.org/en/dashing/index.html) on Ubuntu 18.04 LTS
