@@ -54,7 +54,7 @@ int main() {
   angular.x = 0;
   angular.y = 0;
 
-  MROS2_INFO("publish Twist msg to turtlesim according to Joystick location");
+  MROS2_INFO("publish Twist msg to turtlesim according to the input from Joystick module");
   float initialA = inputA0.read();
   while (1)
   {
