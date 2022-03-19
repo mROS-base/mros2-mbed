@@ -24,6 +24,11 @@
 #define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
 #define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
 
+AnalogIn inputA0(A0);
+AnalogIn inputA1(A1);
+
+#define COEFF_LIN 10.0
+#define COEFF_ANG 10.0
 
 int main() {
   EthernetInterface network;
@@ -38,27 +43,27 @@ int main() {
 
   mros2::Node node = mros2::Node::create_node("mturtle_teleop_joy");
   mros2::Publisher pub = node.create_publisher<geometry_msgs::msg::Twist>("turtle1/cmd_vel", 10);
+  osDelay(100);
   MROS2_INFO("ready to pub/sub message\r\n");
 
   geometry_msgs::msg::Vector3 linear;
   geometry_msgs::msg::Vector3 angular;
   geometry_msgs::msg::Twist twist;
+  linear.y = 0;
+  linear.z = 0;
+  angular.x = 0;
+  angular.y = 0;
 
-  auto publish_count = 0;
+  MROS2_INFO("publish Twist msg to turtlesim according to Joystick location");
+  float initialA = inputA0.read();
   while (1)
   {
-    linear.x = publish_count/10.0;
-    linear.y = 0;
-    linear.z = 0;
-    angular.x = 0;
-    angular.y = 0;
-    angular.z = publish_count/10.0;
+    linear.x = COEFF_LIN * (inputA0.read() - initialA);
+    angular.z = COEFF_ANG * (inputA1.read() - initialA);
     twist.linear = linear;
     twist.angular = angular;
-    MROS2_INFO("publishing Twist msg!!");
     pub.publish(twist);
-    publish_count++;
-    osDelay(3000);
+    osDelay(100);
   }
 
   mros2::spin();
