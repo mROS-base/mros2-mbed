@@ -20,12 +20,20 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 - Host environment
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
   - [ROS 2 Dashing Diademata](https://docs.ros.org/en/dashing/index.html) on Ubuntu 18.04 LTS
+- Network setting
+  - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board (you can change them in `app.cpp`).
+    - IP address: 192.168.11.x
+      - .2 will be assigned to the board
+    - Netmask: 255.255.255.0
+    - Gateway: 192.168.11.1
+  - The firewall on the host (Ubuntu) needs to be disabled for ROS 2 (DDS) communication (e.g. `$ sudo ufw disable`)
+  - If the host is connected to the Internet other than wired network (e.g., Wi-Fi), communication with mros2 may not work properly. In that case, please turn off them.
 
 ## Getting Started
 
 1. Prepare these items below.
-- PC having an Ethernet port whose IP address is 192.168.11.x(x is not 2) and a docker environment.
-- Mbed board having an Ethernet port(listed above).
+- Host PC having an Ethernet port whose network is set to the above and a docker environment.
+- Mbed board having an Ethernet port (listed above).
 2. Build Mbed executable binary using Mbed CLI2.
 ```
 git clone https://github.com/mROS-base/mros2-mbed
