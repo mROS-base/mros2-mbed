@@ -50,6 +50,10 @@ $ source install/local_setup.bash
 
 ## Expected output
 
+### demo movie (on Twitter)
+
+https://twitter.com/takasehideki/status/1505066116921524228
+
 ### serial console for the baord with mros2
 
 ```
