@@ -242,8 +242,8 @@ By using the following Codes on Keil Studio Cloud (a.k.a Mbed Online Complier), 
 
 - example application:
   - [mbed-os-example-mros2 (echoreply_string)](https://os.mbed.com/users/smoritaemb/code/mbed-os-example-mros2/)
-  - [mbed-os-example-mros2-pub-twist (pub-twist)](https://os.mbed.com/users/smoritaemb/code/mbed-os-example-mros2-pub-twist/)
-  - [mbed-os-example-mros2-sub-pose (sub-pose)](https://os.mbed.com/users/smoritaemb/code/mbed-os-example-mros2-sub-pose/)
+  - [mbed-os-example-mros2-pub-twist (pub-twist)](https://os.mbed.com/users/smoritaemb/code/example-mbed-mros2-pub-twist/)
+  - [mbed-os-example-mros2-sub-pose (sub-pose)](https://os.mbed.com/users/smoritaemb/code/example-mbed-mros2-sub-pose/)
 - [mbed-mros2 (core library for mros2-mbed)](https://os.mbed.com/users/smoritaemb/code/mbed-mros2/)
 
 Please feel free to let us know in [Issues on this repository](https://github.com/mROS-base/mros2-mbed/issues) if you have any troubles or causes.
