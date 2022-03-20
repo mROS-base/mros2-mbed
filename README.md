@@ -132,7 +132,7 @@ Of course you can also create a new program file and specify it as your own appl
     - If you want to print float value in serial console, you need to add `"target.printf_lib": "std"` into mbed_app.json (see [detail](https://forums.mbed.com/t/float-printf-doesnt-work-in-desktop-version/9164)). Note that linking std lib will increase the size of Flash memory.
 - Host operation:
   - `$ ros2 launch mros2_sub_float32 sub.launch.py`
-  - or, `ros2 run mros2_sub_float32 sub_node`
+  - or, `$ ros2 run mros2_sub_float32 sub_node`
 
 ### sub_uint16
 
@@ -149,7 +149,7 @@ Of course you can also create a new program file and specify it as your own appl
   - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 launch mros2_sub_twist sub.launch.py`
-  - or, `ros2 run mros2_sub_twist sub_node`
+  - or, `$ ros2 run mros2_sub_twist sub_node`
 
 ### sub_pose
 
@@ -158,7 +158,7 @@ Of course you can also create a new program file and specify it as your own appl
   - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 launch mros2_pub_pose pub.launch.py`
-  - or, `ros2 run mros2_pub_pose pub_node`
+  - or, `$ ros2 run mros2_pub_pose pub_node`
 
 ## Files for the application
 
