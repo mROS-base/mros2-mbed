@@ -21,7 +21,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
   - [ROS 2 Dashing Diademata](https://docs.ros.org/en/dashing/index.html) on Ubuntu 18.04 LTS
 - Network setting
-  - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board (you can change them in `app.cpp`).
+  - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board (if you want to change them, please edit both `app.cpp` and `include/rtps/config.h`).
     - IP address: 192.168.11.x
       - .2 will be assigned to the board
     - Netmask: 255.255.255.0
@@ -235,7 +235,19 @@ int main(int argc, char * argv[])
 <snip.>
 ```
 
-## TIPS: getting started in 5 minutes with the online compiler
+## Tips 1: Configure the network
+
+`include/rtps/config.h` is the configuration file for embeddedRTPS.
+We may be able to realize the RTPS communication to the appropriate configuration by editting this file.
+Currently, we are unable to reconnect to the device from the host multiple times.
+
+And also, you can configure for lwIP (UDP/IP) by `mbed_app.json`. 
+Currently, we are unable to communicate large size of messages probably due to these configurations. 
+
+We should seek the appropreate configurations or how to fit them to the demand of applications.
+Please let us know about them if you have any opinions or awesome knowledges! 
+
+## Tips 2: Getting started in 5 minutes with the online compiler
 
 We also provide an online development environment for mros2-mbed. 
 By using the following Codes on Keil Studio Cloud (a.k.a Mbed Online Complier), you can try out the power of mros2 just in 5 minutes (we wish :D
