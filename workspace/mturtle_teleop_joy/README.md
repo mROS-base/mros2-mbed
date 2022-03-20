@@ -3,6 +3,7 @@
 This is a sample application along with [turtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 version).
 
 The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from Joystick module.
+You can also enter the console mode to hit (w|x|a|d|s) key.
 
 ## Hardware modules
 
@@ -72,6 +73,12 @@ mROS 2 initialization is completed
 ready to pub/sub message
 
 publish Twist msg to turtlesim according to the input from Joystick module
+to the enter console mode, hit (w|x|a|d|s) key
+[keymap in cosole mode]
+  w/x: go forward/back
+  a/d: turn left/right
+  s: stop
+  q: quit console mode and return to Joystick mode
 ```
 
 ### terminal console on the host

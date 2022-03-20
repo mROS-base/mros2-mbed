@@ -29,6 +29,8 @@ AnalogIn inputA1(A1);
 
 #define COEFF_LIN 10.0
 #define COEFF_ANG 10.0
+#define CONSOLE_LIN 0.5
+#define CONSOLE_ANG 1.0
 
 int main() {
   EthernetInterface network;
@@ -55,6 +57,12 @@ int main() {
   angular.y = 0;
 
   MROS2_INFO("publish Twist msg to turtlesim according to the input from Joystick module");
+  MROS2_INFO("to the enter console mode, hit (w|x|a|d|s) key");
+  MROS2_INFO("[keymap in cosole mode]");
+  MROS2_INFO("  w/x: go forward/back");
+  MROS2_INFO("  a/d: turn left/right");
+  MROS2_INFO("  s: stop");
+  MROS2_INFO("  q: quit console mode and return to Joystick mode");
   float initialA = inputA0.read();
   pollfh fds[1];
   fds[0].fh = mbed::mbed_file_handle(STDIN_FILENO);
@@ -73,20 +81,22 @@ int main() {
         switch (c)
         {
         case 'w':
-          linear.x = COEFF_LIN * 5.0;
+          linear.x = CONSOLE_LIN;
+          angular.z = 0.0;
+          break;
+        case 'x':
+          linear.x = -CONSOLE_LIN;
+          angular.z = 0.0;
+          break;
+        case 'a':
+          angular.z = CONSOLE_ANG;
+          break;
+        case 'd':
+          angular.z = -CONSOLE_ANG;
           break;
         case 's':
           linear.x = 0.0;
           angular.z = 0.0;
-          break;
-        case 'x':
-          linear.x = -COEFF_LIN * 5.0;
-          break;
-        case 'a':
-          angular.z = COEFF_ANG * 5.0;
-          break;
-        case 'd':
-          angular.z = -COEFF_ANG * 5.0;
           break;
         case 'q':
           linear.x = 0.0;
