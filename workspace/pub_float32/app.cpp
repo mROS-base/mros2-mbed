@@ -37,6 +37,7 @@ int main() {
 
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Publisher pub = node.create_publisher<std_msgs::msg::Float32>("to_linux", 10);
+  osDelay(100);
   MROS2_INFO("ready to pub/sub message\r\n");
 
   std_msgs::msg::Float32 msg;

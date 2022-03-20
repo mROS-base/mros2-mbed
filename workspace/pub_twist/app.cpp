@@ -38,6 +38,7 @@ int main() {
 
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Publisher pub = node.create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+  osDelay(100);
   MROS2_INFO("ready to pub/sub message\r\n");
 
   geometry_msgs::msg::Vector3 linear;

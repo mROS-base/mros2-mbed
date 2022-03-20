@@ -16,14 +16,24 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
     - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
     - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
+  - check the Mbed website for [the boards list](https://os.mbed.com/platforms/?q=&Mbed+OS+6=Bare+metal&Mbed+OS+6=RTOS&Communication=Ethernet) where mros2 may work. Please let us know if you find a new board that can work as mros2 enabled device.
 - Host environment
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
   - [ROS 2 Dashing Diademata](https://docs.ros.org/en/dashing/index.html) on Ubuntu 18.04 LTS
+- Network setting
+  - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board (you can change them in `app.cpp`).
+    - IP address: 192.168.11.x
+      - .2 will be assigned to the board
+    - Netmask: 255.255.255.0
+    - Gateway: 192.168.11.1
+  - The firewall on the host (Ubuntu) needs to be disabled for ROS 2 (DDS) communication (e.g. `$ sudo ufw disable`)
+  - If the host is connected to the Internet other than wired network (e.g., Wi-Fi), communication with mros2 may not work properly. In that case, please turn off them.
 
-## Getting Starred
+## Getting Started
+
 1. Prepare these items below.
-- PC having an Ethernet port whose IP address is 192.168.11.x(x is not 2) and a docker environment.
-- Mbed board having an Ethernet port(listed above).
+- Host PC having an Ethernet port whose network is set to the above and a docker environment.
+- Mbed board having an Ethernet port (listed above).
 2. Build Mbed executable binary using Mbed CLI2.
 ```
 git clone https://github.com/mROS-base/mros2-mbed
@@ -224,6 +234,19 @@ int main(int argc, char * argv[])
   pub = node.create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
 <snip.>
 ```
+
+## TIPS: getting started in 5 minutes with the online compiler
+
+We also provide an online development environment for mros2-mbed. 
+By using the following Codes on Keil Studio Cloud (a.k.a Mbed Online Complier), you can try out the power of mros2 just in 5 minutes (we wish :D
+
+- example application:
+  - [mbed-os-example-mros2 (echoreply_string)](https://os.mbed.com/users/smoritaemb/code/mbed-os-example-mros2/)
+  - [mbed-os-example-mros2-pub-twist (pub-twist)](https://os.mbed.com/users/smoritaemb/code/example-mbed-mros2-pub-twist/)
+  - [mbed-os-example-mros2-sub-pose (sub-pose)](https://os.mbed.com/users/smoritaemb/code/example-mbed-mros2-sub-pose/)
+- [mbed-mros2 (core library for mros2-mbed)](https://os.mbed.com/users/smoritaemb/code/mbed-mros2/)
+
+Please feel free to let us know in [Issues on this repository](https://github.com/mROS-base/mros2-mbed/issues) if you have any troubles or causes.
 
 ## Submodules and Licenses
 
