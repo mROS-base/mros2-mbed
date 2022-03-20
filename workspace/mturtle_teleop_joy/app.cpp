@@ -65,39 +65,41 @@ int main() {
   {
     if (console_mode || poll(fds, 1, 0))
     {
-        console_mode = true;
-        if (poll(fds, 1, 0))
+      console_mode = true;
+      if (poll(fds, 1, 0))
+      {
+        char c;
+        mbed::mbed_file_handle(STDIN_FILENO)->read(&c, 1);
+        switch (c)
         {
-           char c;
-            mbed::mbed_file_handle(STDIN_FILENO)->read(&c, 1);
-            switch (c)
-            {
-                case 'w':
-                    linear.x =   COEFF_LIN * 5.0;
-                    break;
-                case 's':
-                    linear.x = 0.0;
-                    angular.z = 0.0;
-                    break;
-                case 'x':
-                    linear.x =   -COEFF_LIN * 5.0;
-                    break;
-                case 'a':
-                    angular.z =   COEFF_ANG * 5.0;
-                    break;
-                case 'd':
-                    angular.z =  -COEFF_ANG * 5.0;
-                    break;
-                case 'q':
-                    linear.x = 0.0;
-                    angular.z = 0.0;
-                    console_mode = false;
-                    break;
-            }
+        case 'w':
+          linear.x = COEFF_LIN * 5.0;
+          break;
+        case 's':
+          linear.x = 0.0;
+          angular.z = 0.0;
+          break;
+        case 'x':
+          linear.x = -COEFF_LIN * 5.0;
+          break;
+        case 'a':
+          angular.z = COEFF_ANG * 5.0;
+          break;
+        case 'd':
+          angular.z = -COEFF_ANG * 5.0;
+          break;
+        case 'q':
+          linear.x = 0.0;
+          angular.z = 0.0;
+          console_mode = false;
+          break;
         }
-    } else {
-        linear.x = COEFF_LIN * (inputA0.read() - initialA);
-        angular.z = COEFF_ANG * (inputA1.read() - initialA);
+      }
+    }
+    else
+    {
+      linear.x = COEFF_LIN * (inputA0.read() - initialA);
+      angular.z = COEFF_ANG * (inputA1.read() - initialA);
     }
     twist.linear = linear;
     twist.angular = angular;
