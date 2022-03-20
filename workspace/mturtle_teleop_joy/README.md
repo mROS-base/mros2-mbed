@@ -22,7 +22,7 @@ See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes
 
 ## Build and Run for embedded devices
 
-Make sure to set `app=mturtle_teleop` as `make` option.
+Make sure to set `app=mturtle_teleop_joy` as `make` option.
 
 ```
 ### build the application
@@ -31,7 +31,7 @@ $ pwd
 $ ./build.bash all NUCLEO_F767ZI mturtle_teleop_joy
 <snip.>
 Total Static RAM memory (data + bss): 73880(+73880) bytes
-Total Flash memory (text + data): 355204(+355204) bytes
+Total Flash memory (text + data): 355652(+355652) bytes
 
 ### connect the board and then copy the binary manually.
 $ cp cmake_build/NUCLEO_F767ZI/develop/GCC_ARM/mros2-mbed.bin /media/${USER}/NODE_F767ZI/

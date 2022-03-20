@@ -1,20 +1,9 @@
-# mturtle_teleop_joy
+# mturtle_teleop
 
 This is a sample application along with [turtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 version).
 
-The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from Joystick module.
-You can also enter the console mode to hit (w|x|a|d|s) key.
-
-## Hardware modules
-
-This application requires the Joystick module which is analog input. Here is the list we used for now.
-
-- [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
-- [Seeed Base Shiled V2](https://wiki.seeedstudio.com/Base_Shield_V2/): connect to Arduino compatible header on the board
-- [Grove - Thumb Joystick](https://wiki.seeedstudio.com/Grove-Thumb_Joystick/): connect to A0 conector on Base Shield
-
-We think this application will work well on other boards that supports the Mbed environment and has an Ethernet port.
-Also, if it is an analog input, I think it will work with other Joystick modules and other connection methods.
+The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from keyboard via serial console.
+The feature is almost the same as [ros2/teleop_twist_keyboard](https://github.com/ros2/teleop_twist_keyboard).
 
 ## Generate header files for Twist
 
@@ -28,10 +17,10 @@ Make sure to set `app=mturtle_teleop` as `make` option.
 ### build the application
 $ pwd
 <snip.>/mros2-mbed
-$ ./build.bash all NUCLEO_F767ZI mturtle_teleop_joy
+$ ./build.bash all NUCLEO_F767ZI mturtle_teleop
 <snip.>
 Total Static RAM memory (data + bss): 73880(+73880) bytes
-Total Flash memory (text + data): 355204(+355204) bytes
+Total Flash memory (text + data): 355652(+355652) bytes
 
 ### connect the board and then copy the binary manually.
 $ cp cmake_build/NUCLEO_F767ZI/develop/GCC_ARM/mros2-mbed.bin /media/${USER}/NODE_F767ZI/
@@ -51,10 +40,6 @@ $ source install/local_setup.bash
 
 ## Expected output
 
-### demo movie (on Twitter)
-
-https://twitter.com/takasehideki/status/1505066116921524228
-
 ### serial console for the baord with mros2
 
 ```
@@ -72,13 +57,16 @@ mROS 2 initialization is completed
 [MROS2LIB] Initilizing Domain complete
 ready to pub/sub message
 
-publish Twist msg to turtlesim according to the input from Joystick module
-to the enter console mode, hit (w|x|a|d|s) key
-[keymap in cosole mode]
-  w/x: go forward/back
-  a/d: turn left/right
-  s: stop
-  q: quit console mode and return to Joystick mode
+keymap to move arround:
+------------------
+   u    i    o
+   j    k    l
+   m    ,    .
+------------------
+q/z : increase/decrease max speeds by 10 percent
+w/x : increase/decrease only linear speed by 10 percent
+e/c : increase/decrease only angular speed by 10 percent
+currently: speed 0.5000 / turn 1.0000
 ```
 
 ### terminal console on the host

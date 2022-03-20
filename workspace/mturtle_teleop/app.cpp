@@ -32,6 +32,36 @@ AnalogIn inputA1(A1);
 #define CONSOLE_LIN 0.5
 #define CONSOLE_ANG 1.0
 
+geometry_msgs::msg::Twist set_twist_val(
+  double linear_x, double linear_y, double linear_z,
+  double angular_x, double angular_y, double angular_z)
+{
+  geometry_msgs::msg::Vector3 linear;
+  geometry_msgs::msg::Vector3 angular;
+  geometry_msgs::msg::Twist twist;
+
+  linear.x = linear_x;
+  linear.y = linear_y;
+  linear.z = linear_z;
+  angular.x = angular_x;
+  angular.y = angular_y;
+  angular.z = angular_z;
+  twist.linear = linear;
+  twist.angular = angular;
+
+  return twist;
+}
+
+std::string double_to_string(double value)
+{
+  int intpart, fracpart;
+  char str[12];
+  intpart = (int)value;
+  fracpart = (int)((value - intpart) * 10000);
+  sprintf(str, "%d.%04d", intpart, fracpart);
+  return str;
+}
+
 int main() {
   EthernetInterface network;
   network.set_dhcp(false);
@@ -51,70 +81,126 @@ int main() {
   geometry_msgs::msg::Vector3 linear;
   geometry_msgs::msg::Vector3 angular;
   geometry_msgs::msg::Twist twist;
-  linear.y = 0;
-  linear.z = 0;
-  angular.x = 0;
-  angular.y = 0;
 
-  MROS2_INFO("publish Twist msg to turtlesim according to the input from Joystick module");
-  MROS2_INFO("to the enter console mode, hit (w|x|a|d|s) key");
-  MROS2_INFO("[keymap in cosole mode]");
-  MROS2_INFO("  w/x: go forward/back");
-  MROS2_INFO("  a/d: turn left/right");
-  MROS2_INFO("  s: stop");
-  MROS2_INFO("  q: quit console mode and return to Joystick mode");
-  float initialA = inputA0.read();
   pollfh fds[1];
   fds[0].fh = mbed::mbed_file_handle(STDIN_FILENO);
   fds[0].events = POLLIN;
-  bool console_mode = false;
 
+  auto publish_count = 10;
+  double speed = 0.5;
+  double turn = 1.0;
+  char c;
   while (1)
   {
-    if (console_mode || poll(fds, 1, 0))
+    if (publish_count < 10)
     {
-      console_mode = true;
-      if (poll(fds, 1, 0))
-      {
-        char c;
-        mbed::mbed_file_handle(STDIN_FILENO)->read(&c, 1);
-        switch (c)
-        {
-        case 'w':
-          linear.x = CONSOLE_LIN;
-          angular.z = 0.0;
-          break;
-        case 'x':
-          linear.x = -CONSOLE_LIN;
-          angular.z = 0.0;
-          break;
-        case 'a':
-          angular.z = CONSOLE_ANG;
-          break;
-        case 'd':
-          angular.z = -CONSOLE_ANG;
-          break;
-        case 's':
-          linear.x = 0.0;
-          angular.z = 0.0;
-          break;
-        case 'q':
-          linear.x = 0.0;
-          angular.z = 0.0;
-          console_mode = false;
-          break;
-        }
-      }
+      publish_count++;
     }
     else
     {
-      linear.x = COEFF_LIN * (inputA0.read() - initialA);
-      angular.z = COEFF_ANG * (inputA1.read() - initialA);
+      publish_count = 0;
+      MROS2_INFO("keymap to move arround:");
+      MROS2_INFO("------------------");
+      MROS2_INFO("   u    i    o");
+      MROS2_INFO("   j    k    l");
+      MROS2_INFO("   m    ,    .");
+      MROS2_INFO("------------------");
+      MROS2_INFO("q/z : increase/decrease max speeds by 10 percent");
+      MROS2_INFO("w/x : increase/decrease only linear speed by 10 percent");
+      MROS2_INFO("e/c : increase/decrease only angular speed by 10 percent");
+      MROS2_INFO("currently: speed %s / turn %s",
+                 double_to_string(speed).c_str(), double_to_string(turn).c_str());
+      MROS2_INFO("");
     }
-    twist.linear = linear;
-    twist.angular = angular;
-    pub.publish(twist);
-    osDelay(100);
+
+    char c;
+    mbed::mbed_file_handle(STDIN_FILENO)->read(&c, 1);
+    switch (c)
+    {
+    /* increase/decrease speeds */
+    case 'q':
+      speed = speed * 1.1;
+      turn = turn * 1.1;
+      MROS2_INFO("currently: speed %s / turn %s",
+                 double_to_string(speed).c_str(), double_to_string(turn).c_str());
+      break;
+    case 'z':
+      speed = speed * 0.9;
+      turn = turn * 0.9;
+      MROS2_INFO("currently: speed %s / turn %s",
+                 double_to_string(speed).c_str(), double_to_string(turn).c_str());
+      break;
+    case 'w':
+      speed = speed * 1.1;
+      MROS2_INFO("currently: speed %s / turn %s",
+                 double_to_string(speed).c_str(), double_to_string(turn).c_str());
+      break;
+    case 'x':
+      speed = speed * 0.9;
+      MROS2_INFO("currently: speed %s / turn %s",
+                 double_to_string(speed).c_str(), double_to_string(turn).c_str());
+      break;
+    case 'e':
+      turn = turn * 1.1;
+      MROS2_INFO("currently: speed %s / turn %s",
+                 double_to_string(speed).c_str(), double_to_string(turn).c_str());
+      break;
+    case 'c':
+      turn = turn * 0.9;
+      MROS2_INFO("currently: speed %s / turn %s",
+                 double_to_string(speed).c_str(), double_to_string(turn).c_str());
+      break;
+    /* set direction */
+    case 'u':
+      twist = set_twist_val(speed, 0.0, 0.0, 0.0, 0.0, turn);
+      MROS2_INFO("publishing Twist msg by 'u' command");
+      pub.publish(twist);
+      break;
+    case 'i':
+      twist = set_twist_val(speed, 0.0, 0.0, 0.0, 0.0, 0.0);
+      MROS2_INFO("publishing Twist msg by 'i' command");
+      pub.publish(twist);
+      break;
+    case 'o':
+      twist = set_twist_val(speed, 0.0, 0.0, 0.0, 0.0, -turn);
+      MROS2_INFO("publishing Twist msg by 'o' command");
+      pub.publish(twist);
+      break;
+    case 'j':
+      twist = set_twist_val(0.0, 0.0, 0.0, 0.0, 0.0, turn);
+      MROS2_INFO("publishing Twist msg by 'j' command");
+      pub.publish(twist);
+      break;
+    case 'k':
+      twist = set_twist_val(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+      MROS2_INFO("publishing Twist msg by 'k' command");
+      pub.publish(twist);
+      break;
+    case 'l':
+      twist = set_twist_val(0.0, 0.0, 0.0, 0.0, 0.0, -turn);
+      MROS2_INFO("publishing Twist msg by 'l' command");
+      pub.publish(twist);
+      break;
+    case 'm':
+      twist = set_twist_val(-speed, 0.0, 0.0, 0.0, 0.0, -turn);
+      MROS2_INFO("publishing Twist msg by 'm' command");
+      pub.publish(twist);
+      break;
+    case ',':
+      twist = set_twist_val(-speed, 0.0, 0.0, 0.0, 0.0, 0.0);
+      MROS2_INFO("publishing Twist msg by ',' command");
+      pub.publish(twist);
+      break;
+    case '.':
+      twist = set_twist_val(-speed, 0.0, 0.0, 0.0, 0.0, turn);
+      MROS2_INFO("publishing Twist msg by '.' command");
+      pub.publish(twist);
+      break;
+    default:
+      MROS2_INFO("ERROR: wrong command");
+      publish_count = 10;
+      break;
+    }
   }
 
   mros2::spin();
