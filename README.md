@@ -11,10 +11,15 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 
 - Mbed device
   - Board: Mbed enabled boards having an Ethernet port  
-    For now, these boards below are confirmed to run the example on them.  
-    - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
-    - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
-    - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
+    - For now, these boards below are confirmed to run the example on them.
+      - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
+      - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
+      - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
+    - These boards below are also confirmed but not always supported in the latest version (due to our development resources,,,) 
+      - [STM32 NUCLEO-H743ZI2](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html)
+      - [STM32 F746NG-Discovery](https://www.st.com/ja/evaluation-tools/32f746gdiscovery.html)
+      - [STM32 F769NI-Discovery](https://www.st.com/ja/evaluation-tools/32f769idiscovery.html)
+      - [RENESAS GR-MANGO](https://www.renesas.com/products/gadget-renesas/boards/gr-mango)
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
   - check the Mbed website for [the boards list](https://os.mbed.com/platforms/?q=&Mbed+OS+6=Bare+metal&Mbed+OS+6=RTOS&Communication=Ethernet) where mros2 may work. Please let us know if you find a new board that can work as mros2 enabled device.
 - Host environment
@@ -39,13 +44,17 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 git clone https://github.com/mROS-base/mros2-mbed
 cd mros2-mbed
 #(Please replace the [TARGET] with the ones as below.)
-# +-------------------+---------------+
-# | Your target board | [TARGET]      |
-# +-------------------+---------------+
-# | NUCLEO-F429ZI     | NUCLEO_F429ZI |
-# | NUCLEO-F767ZI     | NUCLEO_F767ZI |
-# | Arch Max v1.1     | ARCH_MAX      |
-# +-------------------+---------------+
+# +-------------------+----------------+
+# | Your target board | [TARGET]       |
+# +-------------------+----------------+
+# | NUCLEO-F429ZI     | NUCLEO_F429ZI  |
+# | NUCLEO-F767ZI     | NUCLEO_F767ZI  |
+# | Arch Max v1.1     | ARCH_MAX       |
+# | NUCLEO-H743ZI2    | NUCLEO_H743ZI2 |
+# | F746NG-Discovery  | DISCO_F746NG   |
+# | F769NI-Discovery  | DISCO_F769NI   |
+# | GR-MANGO          | GR_MANGO       |
+# +-------------------+----------------+
 ./build.bash all [TARGET] echoreply_string
 ```
 After that, you will find an executable binary is created in the path below.
