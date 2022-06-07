@@ -34,11 +34,11 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: mbed-os
-          key: mbed-os_chahe-${{ steps.current-time.outputs.formattedTime }}
+          key: mbed-os_chahe-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.target_board }}
       - uses: actions/cache@v3
         with:
           path: cmake_build
-          key: cmake_build_chahe-${{ steps.current-time.outputs.formattedTime }}
+          key: cmake_build_chahe-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.target_board }}
       - uses: OUXT-Polaris/build-mbed-app-action@master
         with:
           target_board: ${{ matrix.target_board }}
