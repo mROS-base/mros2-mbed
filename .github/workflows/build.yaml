@@ -45,5 +45,5 @@ jobs:
           toolchain: GCC_ARM
       - uses: actions/upload-artifact@v3
         with:
-          name: bin
+          name: bin-${{ matrix.target_board }}
           path: cmake_build/${{ matrix.target_board }}/develop/GCC_ARM/*.bin
