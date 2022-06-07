@@ -1,0 +1,37 @@
+name: build
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/armmbed/mbed-os-env:master-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD
+      - uses: actions/cache@v3
+        with:
+          path: mbed-os
+          key: mbed-os_chahe-${{ steps.current-time.outputs.formattedTime }}
+      - uses: actions/cache@v3
+        with:
+          path: cmake_build
+          key: cmake_build_chahe-${{ steps.current-time.outputs.formattedTime }}
+      - uses: OUXT-Polaris/build-mbed-app-action@master
+        with:
+          target_board: NUCLEO_F767ZI
+          toolchain: GCC_ARM
+      - uses: actions/upload-artifact@v3
+        with:
+          name: bin
+          path: cmake_build/NUCLEO_F767ZI/develop/GCC_ARM/*.bin
