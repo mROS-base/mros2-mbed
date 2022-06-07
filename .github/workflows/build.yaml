@@ -20,7 +20,7 @@ jobs:
         - ARCH_MAX
         - DISCO_F746NG
         - DISCO_F769NI
-        - DISCO_H747I
+#        - DISCO_H747I comment out because of CI error.
         - GR_MANGO
         - NUCLEO_F429ZI
         - NUCLEO_F767ZI
