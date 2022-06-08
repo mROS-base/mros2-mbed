@@ -5,6 +5,15 @@
       "rtos.main-thread-stack-size": 8192,
       "lwip.pbuf-pool-size": 20
     },
+    "DISCO_H747I": {
+      "target.network-default-interface-type": "ETHERNET",
+      "target.macros_add": [
+        "DISCO_H747I_ETHERNET_SOLDERBRIGE"
+      ],
+      "target.device_has_add": [
+        "EMAC"
+      ]
+    },
     "K64F": {
       "platform.stdio-baud-rate": 9600
     }
