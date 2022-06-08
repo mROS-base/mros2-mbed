@@ -19,7 +19,6 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
       - [STM32 NUCLEO-H743ZI2](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html)
       - [STM32 F746NG-Discovery](https://www.st.com/ja/evaluation-tools/32f746gdiscovery.html)
       - [STM32 F769NI-Discovery](https://www.st.com/ja/evaluation-tools/32f769idiscovery.html)
-      - [STM32 H747I-Discovery](https://www.st.com/ja/evaluation-tools/stm32h747i-disco.html)
       - [RENESAS GR-MANGO](https://www.renesas.com/products/gadget-renesas/boards/gr-mango)
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
   - check the Mbed website for [the boards list](https://os.mbed.com/platforms/?q=&Mbed+OS+6=Bare+metal&Mbed+OS+6=RTOS&Communication=Ethernet) where mros2 may work. Please let us know if you find a new board that can work as mros2 enabled device.
@@ -54,7 +53,6 @@ cd mros2-mbed
 # | NUCLEO-H743ZI2    | NUCLEO_H743ZI2 |
 # | F746NG-Discovery  | DISCO_F746NG   |
 # | F769NI-Discovery  | DISCO_F769NI   |
-# | H747I-Discovery   | DISCO_H747I    |
 # | GR-MANGO          | GR_MANGO       |
 # +-------------------+----------------+
 ./build.bash all [TARGET] echoreply_string
