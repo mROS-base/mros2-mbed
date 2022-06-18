@@ -1,0 +1,48 @@
+name: build
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/armmbed/mbed-os-env:master-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target_board:
+        - ARCH_MAX
+        - DISCO_F746NG
+        - DISCO_F769NI
+        - GR_MANGO
+        - NUCLEO_F429ZI
+        - NUCLEO_F767ZI
+        - NUCLEO_H743ZI2
+    steps:
+      - uses: actions/checkout@v3
+      - uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD
+      - uses: actions/cache@v3
+        with:
+          path: mbed-os
+          key: mbed-os_chahe-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.target_board }}
+      - uses: actions/cache@v3
+        with:
+          path: cmake_build
+          key: cmake_build_chahe-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.target_board }}
+      - uses: OUXT-Polaris/build-mbed-app-action@master
+        with:
+          target_board: ${{ matrix.target_board }}
+          toolchain: GCC_ARM
+      - uses: actions/upload-artifact@v3
+        with:
+          name: bin-${{ matrix.target_board }}
+          path: cmake_build/${{ matrix.target_board }}/develop/GCC_ARM/*.bin
