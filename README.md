@@ -1,3 +1,5 @@
+[![build](https://github.com/mROS-base/mros2-mbed/actions/workflows/build.yaml/badge.svg)](https://github.com/mROS-base/mros2-mbed/actions/workflows/build.yaml)
+
 # mros2-mbed
 
 mROS 2 (formally `mros2`) realizes a agent-less and lightweight runtime environment compatible with ROS 2 for embedded devices.
