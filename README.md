@@ -41,7 +41,8 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 1. Prepare these items below.
 - Host PC having an Ethernet port whose network is set to the above and a docker environment.
 - Mbed board having an Ethernet port (listed above).
-2. Build Mbed executable binary using Mbed CLI2.
+2. Build Mbed executable binary using [the Docker environment for Mbed CLI2](https://github.com/ARMmbed/mbed-os/pkgs/container/mbed-os-env).  
+(You can also use the native environment where MBed CLI2 could work well. Please add `native` to 4th arg. (see [the example instruction to prepare native env](https://github.com/mROS-base/mros2-mbed/commit/90225c77e07e5cedc8473285b457827cb047e481)))
 ```
 git clone https://github.com/mROS-base/mros2-mbed
 cd mros2-mbed
