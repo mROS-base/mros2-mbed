@@ -53,6 +53,7 @@ then
     echo "INFO: build operation will be executed on native env"
     DOCKERCMD_PRE=""
     DOCKERCMD_SUF=""
+    export APPNAME=${APPNAME}
   elif [ ${4} = "docker" ];
   then
     echo "INFO: build operation will be executed on dokcer env"
