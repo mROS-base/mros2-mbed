@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ### setup operation ###
-if [ $# -ne 1 -a $# -ne 3 ];
+if [ $# -ne 1 -a $# -ne 3 -a $# -ne 4 ];
 then
   echo "ERROR: args invalid"
-  echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>]"
+  echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>] [{native|docker}]"
   exit 1
 fi
 
@@ -28,7 +28,7 @@ then
   exit 0
 else
   echo "ERROR: args invalid"
-  echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>]"
+  echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>] [{native|docker}]"
   exit 1
 fi
 
@@ -42,6 +42,30 @@ else
   APPNAME=$3
 fi
 
+DOCKERCMD_PRE="docker run --rm -it --mount type=bind,source=$(pwd),destination=/var/mbed \
+  -w /var/mbed -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
+  /bin/bash -c \""
+DOCKERCMD_SUF="\""
+if [ $# == 4 ];
+then
+  if [ ${4} = "native" ];
+  then
+    echo "INFO: build operation will be executed on native env"
+    DOCKERCMD_PRE=""
+    DOCKERCMD_SUF=""
+  elif [ ${4} = "docker" ];
+  then
+    echo "INFO: build operation will be executed on dokcer env"
+  else
+    echo "ERROR: args invalid"
+    echo "ERROR: \"native\" or \"docker\" should be specified as 4th arg"
+    echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>]"
+    exit 1
+  fi
+else
+  echo "INFO: build operation will be executed on dokcer env"
+fi
+
 echo "INFO: build setting"
 echo "      TARGET=${TARGET}"
 echo "      APPNAME=${APPNAME}"
@@ -49,14 +73,10 @@ echo "      APPNAME=${APPNAME}"
 
 ### build a project ###
 # deploy mbed environment by mbed-tools
-docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-  -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
-  /bin/bash -c "mbed-tools deploy"
+eval ${DOCKERCMD_PRE}mbed-tools deploy${DOCKERCMD_SUF}
 
 # configure mbed project by mbed-tools
-docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-  -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
-  /bin/bash -c "mbed-tools configure -m ${TARGET} -t GCC_ARM"
+eval ${DOCKERCMD_PRE}mbed-tools configure -m ${TARGET} -t GCC_ARM${DOCKERCMD_SUF}
 
 # generate of header file for template functions of MsgType
 MROS2DIR=../mros2
@@ -75,24 +95,16 @@ fi
 cd ..
 
 # set the build parameter
-docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-  -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
-  /bin/bash -c "cmake -S . -B cmake_build/${TARGET}/develop/GCC_ARM -GNinja"
+eval ${DOCKERCMD_PRE}cmake -S . -B cmake_build/${TARGET}/develop/GCC_ARM -GNinja${DOCKERCMD_SUF}
 
 # build (switch according to arg1)
 if [ ${MAKECMD} = "all" ];
 then
-  docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-    -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
-    /bin/bash -c "cmake --build cmake_build/${TARGET}/develop/GCC_ARM"
+  eval ${DOCKERCMD_PRE}cmake --build cmake_build/${TARGET}/develop/GCC_ARM${DOCKERCMD_SUF}
 elif [ ${MAKECMD} = "rebuild" ];
 then
-  docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-    -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
-    /bin/bash -c "cmake --build cmake_build/${TARGET}/develop/GCC_ARM --clean-first"
+  eval ${DOCKERCMD_PRE}cmake --build cmake_build/${TARGET}/develop/GCC_ARM --clean-first${DOCKERCMD_SUF}
 elif [ ${MAKECMD} = "clean" ];
 then
-  docker run --rm -it --mount=type=bind,source="$(pwd)",destination=/var/mbed -w /var/mbed \
-    -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
-    /bin/bash -c "cmake --build cmake_build/${TARGET}/develop/GCC_ARM --target clean"
+  eval ${DOCKERCMD_PRE}cmake --build cmake_build/${TARGET}/develop/GCC_ARM --target clean${DOCKERCMD_SUF}
 fi
