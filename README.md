@@ -175,14 +175,14 @@ Of course you can also create a new program file and specify it as your own appl
 ### mturtle_teleop
 
 - Description:
-  - This is a sample application along with [turtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 version).
+  - This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 dedicated version of turtlesim).
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from keyboard via serial console.
 - Please see [mturtle_teleop/README.md](workspace/mturtle_teleop/README.md) for more detail including host operation.
 
 ### mturtle_teleop_joy
 
 - Description:
-  - This is a sample application along with [turtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 version).
+  - This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 dedicated version of turtlesim).
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from Joystick module.
 - Please see [mturtle_teleop_joy/README.md](workspace/mturtle_teleop_joy/README.md) for more detail including host operation.
 

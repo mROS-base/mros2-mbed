@@ -56,7 +56,7 @@ int main() {
   angular.x = 0;
   angular.y = 0;
 
-  MROS2_INFO("publish Twist msg to turtlesim according to the input from Joystick module");
+  MROS2_INFO("publish Twist msg to mturtlesim according to the input from Joystick module");
   MROS2_INFO("to the enter console mode, hit (w|x|a|d|s) key");
   MROS2_INFO("[keymap in cosole mode]");
   MROS2_INFO("  w/x: go forward/back");
