@@ -18,7 +18,7 @@ Also, if it is an analog input, I think it will work with other Joystick modules
 
 ## Generate header files for Twist
 
-See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
+See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../../README.md#generating-header-files-for-custom-msgtypes).
 
 ## Build and Run for embedded devices
 
