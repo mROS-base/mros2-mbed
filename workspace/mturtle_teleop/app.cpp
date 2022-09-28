@@ -73,7 +73,7 @@ int main() {
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
-  mros2::Node node = mros2::Node::create_node("mturtle_teleop_joy");
+  mros2::Node node = mros2::Node::create_node("mturtle_teleop");
   mros2::Publisher pub = node.create_publisher<geometry_msgs::msg::Twist>("turtle1/cmd_vel", 10);
   osDelay(100);
   MROS2_INFO("ready to pub/sub message\r\n");
