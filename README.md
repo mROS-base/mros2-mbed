@@ -230,7 +230,7 @@ To generate header files for `Twist` and `Vector3`, run the following command in
 
 ```
 $ cd workspace
-$ python ../mros2/mros2_header_generator/header_generator.py geometry_msgs/msg/Twist.msg
+$ python3 ../mros2/mros2_header_generator/header_generator.py geometry_msgs/msg/Twist.msg
 ```
 
 Make sure header files for custom MsgType are generated in `custom_msgs/`

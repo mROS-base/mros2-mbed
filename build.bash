@@ -85,7 +85,7 @@ TEMPLATESGEN_FILE=${MROS2DIR}/mros2_header_generator/templates_generator.py
 
 echo "INFO: generate header file for template functions of MsgType"
 cd workspace
-python ${TEMPLATESGEN_FILE} ${APPNAME}
+python3 ${TEMPLATESGEN_FILE} ${APPNAME}
 if [ $? -eq 0 ];
 then
   echo "INFO: header fille for template function of ${APPNAME}'s MsgType is successfully generated"
