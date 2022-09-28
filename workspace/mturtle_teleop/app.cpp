@@ -99,7 +99,7 @@ int main() {
     else
     {
       publish_count = 0;
-      MROS2_INFO("keymap to move arround:");
+      MROS2_INFO("keymap to move around:");
       MROS2_INFO("------------------");
       MROS2_INFO("   u    i    o");
       MROS2_INFO("   j    k    l");
