@@ -26,7 +26,7 @@ typedef uint32_t TickType_t;
 #define configTICK_RATE_HZ ((TickType_t)1000)
 
 #ifndef pdMS_TO_TICKS
-    #define pdMS_TO_TICKS(xTimeInMs) ((TickType_t)(((TickType_t)(xTimeInMs) * (TickType_t)configTICK_RATE_HZ) / (TickType_t)1000))
+#define pdMS_TO_TICKS(xTimeInMs) ((TickType_t)(((TickType_t)(xTimeInMs) * (TickType_t)configTICK_RATE_HZ) / (TickType_t)1000))
 #endif
 
 #define xTaskGetTickCount osKernelGetTickCount
