@@ -3,7 +3,7 @@
 # mros2-mbed
 
 mROS 2 (formally `mros2`) realizes a agent-less and lightweight runtime environment compatible with ROS 2 for embedded devices.
-mROS 2 mainly offers pub/sub APIs compatible with [rclcpp](https://docs.ros2.org/foxy/api/rclcpp/index.html) for embedded devices.
+mROS 2 mainly offers pub/sub APIs compatible with [rclcpp](https://docs.ros.org/en/rolling/p/rclcpp/index.html) for embedded devices.
 
 mROS 2 consists of communication library for pub/sub APIs, RTPS protocol, UDP/IP stack, and real-time kernel.
 This repository provides the reference implementation of mROS 2 that can be operated on the Mbed enabled board.
@@ -14,19 +14,19 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
 - Mbed device
   - Board: Mbed enabled boards having an Ethernet port  
     - For now, these boards below are confirmed to run the example on them.
-      - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
       - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
-      - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
-    - These boards below are also confirmed but not always supported in the latest version (due to our development resources,,,) 
       - [STM32 NUCLEO-H743ZI2](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html)
+    - These boards below are also confirmed but not always supported in the latest version (due to our development resources,,,) 
+      - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
       - [STM32 F746NG-Discovery](https://www.st.com/ja/evaluation-tools/32f746gdiscovery.html)
       - [STM32 F769NI-Discovery](https://www.st.com/ja/evaluation-tools/32f769idiscovery.html)
+      - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
       - [RENESAS GR-MANGO](https://www.renesas.com/products/gadget-renesas/boards/gr-mango)
   - Kernel: [Mbed OS 6](https://github.com/ARMmbed/mbed-os)
   - check the Mbed website for [the boards list](https://os.mbed.com/platforms/?q=&Mbed+OS+6=Bare+metal&Mbed+OS+6=RTOS&Communication=Ethernet) where mros2 may work. Please let us know if you find a new board that can work as mros2 enabled device.
 - Host environment
+  - [ROS 2 Humble Hawksbill](https://docs.ros.org/en/humble/index.html) on Ubuntu 22.04 LTS
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
-  - [ROS 2 Dashing Diademata](https://docs.ros.org/en/dashing/index.html) on Ubuntu 18.04 LTS
 - Network setting
   - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board (if you want to change them, please edit both `app.cpp` and `include/rtps/config.h`).
     - IP address: 192.168.11.x
@@ -50,12 +50,12 @@ cd mros2-mbed
 # +-------------------+----------------+
 # | Your target board | [TARGET]       |
 # +-------------------+----------------+
-# | NUCLEO-F429ZI     | NUCLEO_F429ZI  |
 # | NUCLEO-F767ZI     | NUCLEO_F767ZI  |
-# | Arch Max v1.1     | ARCH_MAX       |
 # | NUCLEO-H743ZI2    | NUCLEO_H743ZI2 |
+# | NUCLEO-F429ZI     | NUCLEO_F429ZI  |
 # | F746NG-Discovery  | DISCO_F746NG   |
 # | F769NI-Discovery  | DISCO_F769NI   |
+# | Arch Max v1.1     | ARCH_MAX       |
 # | GR-MANGO          | GR_MANGO       |
 # +-------------------+----------------+
 ./build.bash all [TARGET] echoreply_string
@@ -82,8 +82,8 @@ ready to pub/sub message
 ```
 6. On the PC console, type the command below.
 ```
-docker run --rm -it --net=host ros:foxy /bin/bash \
-  -c "source /opt/ros/foxy/setup.bash &&
+docker run --rm -it --net=host ros:humble /bin/bash \
+  -c "source /opt/ros/humble/setup.bash &&
   cd &&
   git clone https://github.com/mROS-base/mros2-host-examples &&
   cd mros2-host-examples &&
@@ -175,14 +175,14 @@ Of course you can also create a new program file and specify it as your own appl
 ### mturtle_teleop
 
 - Description:
-  - This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 dedicated version of turtlesim).
+  - This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/humble-devel/turtlesim) (mros2 dedicated version of turtlesim).
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from keyboard via serial console.
 - Please see [mturtle_teleop/README.md](workspace/mturtle_teleop/README.md) for more detail including host operation.
 
 ### mturtle_teleop_joy
 
 - Description:
-  - This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 dedicated version of turtlesim).
+  - This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/humble-devel/turtlesim) (mros2 dedicated version of turtlesim).
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from Joystick module.
 - Please see [mturtle_teleop_joy/README.md](workspace/mturtle_teleop_joy/README.md) for more detail including host operation.
 

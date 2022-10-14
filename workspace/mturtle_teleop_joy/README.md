@@ -1,6 +1,6 @@
 # mturtle_teleop_joy
 
-This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/foxy-devel/turtlesim) (mros2 dedicated version of turtlesim).
+This is a sample application along with [mturtlesim](https://github.com/mROS-base/ros_tutorials/tree/mros2/humble-devel/turtlesim) (mros2 dedicated version of turtlesim).
 
 The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from Joystick module.
 You can also enter the console mode to hit (w|x|a|d|s) key.
@@ -43,7 +43,8 @@ Since the current version of does not support the QoS control, the original vers
 
 ```
 $ cd <your_ros2_ws>/src
-$ git clone -b mros2/foxy-devel https://github.com/mROS-base/ros_tutorials
+# When you use Foxy as the host, please change the branch to `mros2/foxy-devel`
+$ git clone -b mros2/humble-devel https://github.com/mROS-base/ros_tutorials
 $ cd ..
 $ colcon build --packages-select mturtlesim
 $ source install/local_setup.bash
