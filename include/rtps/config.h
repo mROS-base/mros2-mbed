@@ -44,15 +44,15 @@ const std::array<uint8_t, 4> IP_ADDRESS = {
 const GuidPrefix_t BASE_GUID_PREFIX{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12};
 
 const uint8_t DOMAIN_ID = 0; // 230 possible with UDP
-const uint8_t NUM_STATELESS_WRITERS = 2;
-const uint8_t NUM_STATELESS_READERS = 2;
+const uint8_t NUM_STATELESS_WRITERS = 4;
+const uint8_t NUM_STATELESS_READERS = 4;
 const uint8_t NUM_STATEFUL_READERS = 8;
 const uint8_t NUM_STATEFUL_WRITERS = 8;
 const uint8_t MAX_NUM_PARTICIPANTS = 1;
 const uint8_t NUM_WRITERS_PER_PARTICIPANT = 16;
 const uint8_t NUM_READERS_PER_PARTICIPANT = 16;
-const uint8_t NUM_WRITER_PROXIES_PER_READER = 3;
-const uint8_t NUM_READER_PROXIES_PER_WRITER = 3;
+const uint8_t NUM_WRITER_PROXIES_PER_READER = 6;
+const uint8_t NUM_READER_PROXIES_PER_WRITER = 6;
 
 const uint8_t MAX_NUM_UNMATCHED_REMOTE_WRITERS = 15;
 const uint8_t MAX_NUM_UNMATCHED_REMOTE_READERS = 15;
@@ -72,7 +72,7 @@ const int THREAD_POOL_READER_STACKSIZE = 4096; // byte
 const uint16_t SPDP_WRITER_STACKSIZE = 4096;    // byte
 
 const uint16_t SF_WRITER_HB_PERIOD_MS = 4000;
-const uint16_t SPDP_RESEND_PERIOD_MS = 10000;
+const uint16_t SPDP_RESEND_PERIOD_MS = 1000;
 const uint8_t SPDP_CYCLECOUNT_HEARTBEAT =
     2; // skip x SPDP rounds before checking liveliness
 const uint8_t SPDP_WRITER_PRIO = 24;
