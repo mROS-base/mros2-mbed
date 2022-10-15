@@ -72,7 +72,7 @@ const int THREAD_POOL_READER_STACKSIZE = 4096; // byte
 const uint16_t SPDP_WRITER_STACKSIZE = 4096;    // byte
 
 const uint16_t SF_WRITER_HB_PERIOD_MS = 4000;
-const uint16_t SPDP_RESEND_PERIOD_MS = 10000;
+const uint16_t SPDP_RESEND_PERIOD_MS = 1000;
 const uint8_t SPDP_CYCLECOUNT_HEARTBEAT =
     2; // skip x SPDP rounds before checking liveliness
 const uint8_t SPDP_WRITER_PRIO = 24;
