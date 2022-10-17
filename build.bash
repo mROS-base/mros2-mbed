@@ -35,7 +35,7 @@ fi
 if [ $# -eq 1 ];
 then
   TARGET="NUCLEO_F767ZI"
-  APPNAME="echoreply_string"
+  APPNAME="echoback_string"
   echo "WARN: default set will be used for build"
 else
   TARGET=$2

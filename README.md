@@ -58,7 +58,7 @@ cd mros2-mbed
 # | Arch Max v1.1     | ARCH_MAX       |
 # | GR-MANGO          | GR_MANGO       |
 # +-------------------+----------------+
-./build.bash all [TARGET] echoreply_string
+./build.bash all [TARGET] echoback_string
 ```
 After that, you will find an executable binary is created in the path below.
 ```
@@ -69,51 +69,105 @@ cmake_build/[TARGET]/develop/GCC_ARM/mros2-mbed.bin
 5. Copy the executable binary above to the Mbed Board.
    (you may find it in the Nautilus file manager as NODE_F429ZI, F767ZI or DAPLINK.)
 ```
-mbed mros2 start!
-[MROS2LIB] mros2_init task start
-mROS 2 initialization is completed
-[MROS2LIB] create_node
-[MROS2LIB] start creating participant
-[MROS2LIB] successfully created participant
-[MROS2LIB] create_publisher complete.
-[MROS2LIB] create_subscription complete. data memory address=0x2001e170[MROS2LIB] Initilizing Domain complete
-
-ready to pub/sub message
+mbed mros2 start!                                                               
+app name: echoback_string                                                       
+[MROS2LIB] mros2_init task start                                                
+mROS 2 initialization is completed                                              
+                                                                                
+[MROS2LIB] create_node                                                          
+[MROS2LIB] start creating participant                                           
+[MROS2LIB] successfully created participant                                     
+[MROS2LIB] create_publisher complete.                                           
+[MROS2LIB] create_subscription complete.                                        
+[MROS2LIB] Initilizing Domain complete                                          
+ready to pub/sub message                                                        
+                                                                                
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 0'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 1'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 2'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 3'        
+...(SNIPPED)...
 ```
-6. On the PC console, type the command below.
+6. On the host terminal, type the command below.
 ```
 docker run --rm -it --net=host ros:humble /bin/bash \
   -c "source /opt/ros/humble/setup.bash &&
   cd &&
   git clone https://github.com/mROS-base/mros2-host-examples &&
   cd mros2-host-examples &&
-  colcon build --packages-select mros2_echoback_string &&
+  colcon build --packages-select mros2_echoreply_string &&
   source install/setup.bash &&
-  (ros2 run mros2_echoback_string sub_node &) &&
-  echo 'wait for sub_node connection' &&
-  sleep 10 &&
-  ros2 run mros2_echoback_string pub_node"
+  ros2 run mros2_echoreply_string echoreply_node"
 ```
 Then, we can confirm the communication between the PC and Mbed board via ROS2.
 ```
 Cloning into 'mros2-host-examples'...
-remote: Enumerating objects: 432, done.
-remote: Counting objects: 100% (432/432), done.
-remote: Compressing objects: 100% (272/272), done.
-remote: Total 432 (delta 237), reused 316 (delta 127), pack-reused 0
-Receiving objects: 100% (432/432), 42.50 KiB | 10.63 MiB/s, done.
-Resolving deltas: 100% (237/237), done.
-Starting >>> mros2_echoback_string
-Finished <<< mros2_echoback_string [5.28s]                     
+remote: Enumerating objects: 831, done.
+remote: Counting objects: 100% (85/85), done.
+remote: Compressing objects: 100% (68/68), done.
+remote: Total 831 (delta 46), reused 26 (delta 15), pack-reused 746
+Receiving objects: 100% (831/831), 96.01 KiB | 7.38 MiB/s, done.
+Resolving deltas: 100% (448/448), done.
+Starting >>> mros2_echoreply_string
+Finished <<< mros2_echoreply_string [9.02s]                     
 
-Summary: 1 package finished [5.39s]
-wait for sub_node connection
-[INFO] [pub_mros2]: Publishing msg: 'Hello, world! 0'
-[INFO] [mros2_sub]: Subscribed msg: 'Hello, world! 0'
-[INFO] [pub_mros2]: Publishing msg: 'Hello, world! 1'
-[INFO] [mros2_sub]: Subscribed msg: 'Hello, world! 1'
-[INFO] [pub_mros2]: Publishing msg: 'Hello, world! 2'
-[INFO] [mros2_sub]: Subscribed msg: 'Hello, world! 2'
+Summary: 1 package finished [9.17s]
+[INFO] [1666012200.122092282] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012200.122210443] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012201.127168943] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012201.127216518] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012202.132162620] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012202.132208473] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012203.137265544] [mros2_echoreply_node]: 
+...(SNIPPED)...
+```
+Then, we can confirm the communication between the host and Mbed board.
+```
+Cloning into 'mros2-host-examples'...
+remote: Enumerating objects: 831, done.
+remote: Counting objects: 100% (85/85), done.
+remote: Compressing objects: 100% (68/68), done.
+remote: Total 831 (delta 46), reused 26 (delta 15), pack-reused 746
+Receiving objects: 100% (831/831), 96.01 KiB | 7.38 MiB/s, done.
+Resolving deltas: 100% (448/448), done.
+Starting >>> mros2_echoreply_string
+Finished <<< mros2_echoreply_string [9.02s]                     
+
+Summary: 1 package finished [9.17s]
+[INFO] [1666012200.122092282] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012200.122210443] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012201.127168943] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012201.127216518] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012202.132162620] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012202.132208473] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012203.137265544] [mros2_echoreply_node]: 
+...(SNIPPED)...
+```
+serial console on the board
+```
+...(SNIPPED)...
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 5'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 6'                   
+[MROS2LIB] subscriber matched with remote publisher                             
+[MROS2LIB] publisher matched with remote subscriber                             
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'                   
+subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'                   
+subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'                   
+subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'                   
 ...(SNIPPED)...
 ```
 
@@ -125,7 +179,7 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 You can switch the example by specifying the third argument of `build.bash`.
 Of course you can also create a new program file and specify it as your own application.
 
-### echoback_string
+### echoback_string (default)
 
 - Description:
   - The mROS 2 node on the embedded board publishes `string` (`std_msgs::msg::String`) message to `/to_linux` topic.
@@ -134,7 +188,7 @@ Of course you can also create a new program file and specify it as your own appl
 - Host operation:
   - `$ ros2 run mros2_echoreply_string echoreply_node`
 
-### echoreply_string (default)
+### echoreply_string
 
 - Description:
   - The mROS 2 node on the embedded board subscribes `string` (`std_msgs::msg::String`) message from `/to_stm` topic.
