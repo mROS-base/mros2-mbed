@@ -125,6 +125,15 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 You can switch the example by specifying the third argument of `build.bash`.
 Of course you can also create a new program file and specify it as your own application.
 
+### echoback_string
+
+- Description:
+  - The mROS 2 node on the embedded board publishes `string` (`std_msgs::msg::String`) message to `/to_linux` topic.
+  - (The node on the host will echoreply this message as it is.)
+  - The mROS 2 node subscribes the replied message from `/to_stm` topic.
+- Host operation:
+  - `$ ros2 run mros2_echoreply_string echoreply_node`
+
 ### echoreply_string (default)
 
 - Description:
