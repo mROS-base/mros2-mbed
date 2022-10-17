@@ -23,6 +23,10 @@
 #define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
 #define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
 
+/* convert TARGET_NAME to put into message */
+#define quote(x) std::string(q(x))
+#define q(x) #x
+
 
 void userCallback(std_msgs::msg::String *msg)
 {
@@ -50,7 +54,7 @@ int main() {
   auto count = 0;
   while (1) {
     auto msg = std_msgs::msg::String();
-    msg.data = "Hello, world! " + std::to_string(count++);
+    msg.data = "Hello from mros2-mbed onto " + quote(TARGET_NAME) + ": " + std::to_string(count++);
     printf("publishing msg: '%s'\r\n", msg.data.c_str());
     pub.publish(msg);
     osDelay(1000);
