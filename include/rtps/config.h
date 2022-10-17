@@ -25,8 +25,8 @@ Author: i11 - Embedded Software, RWTH Aachen University
 #ifndef RTPS_CONFIG_H
 #define RTPS_CONFIG_H
 
-/* added for mROS 2 */
-#include "conversion.h"
+/* need to add for mros2 */
+#include "mros2/freertos_conversion.h"
 
 #include "rtps/common/types.h"
 
