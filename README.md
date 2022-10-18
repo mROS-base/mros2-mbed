@@ -58,7 +58,7 @@ cd mros2-mbed
 # | Arch Max v1.1     | ARCH_MAX       |
 # | GR-MANGO          | GR_MANGO       |
 # +-------------------+----------------+
-./build.bash all [TARGET] echoreply_string
+./build.bash all [TARGET] echoback_string
 ```
 After that, you will find an executable binary is created in the path below.
 ```
@@ -69,63 +69,117 @@ cmake_build/[TARGET]/develop/GCC_ARM/mros2-mbed.bin
 5. Copy the executable binary above to the Mbed Board.
    (you may find it in the Nautilus file manager as NODE_F429ZI, F767ZI or DAPLINK.)
 ```
-mbed mros2 start!
-[MROS2LIB] mros2_init task start
-mROS 2 initialization is completed
-[MROS2LIB] create_node
-[MROS2LIB] start creating participant
-[MROS2LIB] successfully created participant
-[MROS2LIB] create_publisher complete.
-[MROS2LIB] create_subscription complete. data memory address=0x2001e170[MROS2LIB] Initilizing Domain complete
-
-ready to pub/sub message
+mbed mros2 start!                                                               
+app name: echoback_string                                                       
+[MROS2LIB] mros2_init task start                                                
+mROS 2 initialization is completed                                              
+                                                                                
+[MROS2LIB] create_node                                                          
+[MROS2LIB] start creating participant                                           
+[MROS2LIB] successfully created participant                                     
+[MROS2LIB] create_publisher complete.                                           
+[MROS2LIB] create_subscription complete.                                        
+[MROS2LIB] Initilizing Domain complete                                          
+ready to pub/sub message                                                        
+                                                                                
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 0'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 1'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 2'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 3'        
+...(SNIPPED)...
 ```
-6. On the PC console, type the command below.
+6. One of the easiest way to operate the host is using Docker. On the host terminal, type the command below.
 ```
 docker run --rm -it --net=host ros:humble /bin/bash \
   -c "source /opt/ros/humble/setup.bash &&
   cd &&
   git clone https://github.com/mROS-base/mros2-host-examples &&
   cd mros2-host-examples &&
-  colcon build --packages-select mros2_echoback_string &&
+  colcon build --packages-select mros2_echoreply_string &&
   source install/setup.bash &&
-  (ros2 run mros2_echoback_string sub_node &) &&
-  echo 'wait for sub_node connection' &&
-  sleep 10 &&
-  ros2 run mros2_echoback_string pub_node"
+  ros2 run mros2_echoreply_string echoreply_node"
 ```
-Then, we can confirm the communication between the PC and Mbed board via ROS2.
+Then, we can confirm the communication between the PC and Mbed board via ROS 2 topic.
 ```
 Cloning into 'mros2-host-examples'...
-remote: Enumerating objects: 432, done.
-remote: Counting objects: 100% (432/432), done.
-remote: Compressing objects: 100% (272/272), done.
-remote: Total 432 (delta 237), reused 316 (delta 127), pack-reused 0
-Receiving objects: 100% (432/432), 42.50 KiB | 10.63 MiB/s, done.
-Resolving deltas: 100% (237/237), done.
-Starting >>> mros2_echoback_string
-Finished <<< mros2_echoback_string [5.28s]                     
+remote: Enumerating objects: 831, done.
+remote: Counting objects: 100% (85/85), done.
+remote: Compressing objects: 100% (68/68), done.
+remote: Total 831 (delta 46), reused 26 (delta 15), pack-reused 746
+Receiving objects: 100% (831/831), 96.01 KiB | 7.38 MiB/s, done.
+Resolving deltas: 100% (448/448), done.
+Starting >>> mros2_echoreply_string
+Finished <<< mros2_echoreply_string [9.02s]                     
 
-Summary: 1 package finished [5.39s]
-wait for sub_node connection
-[INFO] [pub_mros2]: Publishing msg: 'Hello, world! 0'
-[INFO] [mros2_sub]: Subscribed msg: 'Hello, world! 0'
-[INFO] [pub_mros2]: Publishing msg: 'Hello, world! 1'
-[INFO] [mros2_sub]: Subscribed msg: 'Hello, world! 1'
-[INFO] [pub_mros2]: Publishing msg: 'Hello, world! 2'
-[INFO] [mros2_sub]: Subscribed msg: 'Hello, world! 2'
+Summary: 1 package finished [9.17s]
+[INFO] [1666012200.122092282] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012200.122210443] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012201.127168943] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012201.127216518] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012202.132162620] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012202.132208473] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012203.137265544] [mros2_echoreply_node]: 
+...(SNIPPED)...
+```
+Then, we can confirm the communication between the host and Mbed board.
+```
+Cloning into 'mros2-host-examples'...
+remote: Enumerating objects: 831, done.
+remote: Counting objects: 100% (85/85), done.
+remote: Compressing objects: 100% (68/68), done.
+remote: Total 831 (delta 46), reused 26 (delta 15), pack-reused 746
+Receiving objects: 100% (831/831), 96.01 KiB | 7.38 MiB/s, done.
+Resolving deltas: 100% (448/448), done.
+Starting >>> mros2_echoreply_string
+Finished <<< mros2_echoreply_string [9.02s]                     
+
+Summary: 1 package finished [9.17s]
+[INFO] [1666012200.122092282] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012200.122210443] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
+[INFO] [1666012201.127168943] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012201.127216518] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
+[INFO] [1666012202.132162620] [mros2_echoreply_node]: 
+Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012202.132208473] [mros2_echoreply_node]: 
+Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
+[INFO] [1666012203.137265544] [mros2_echoreply_node]: 
+...(SNIPPED)...
+```
+serial console on the board
+```
+...(SNIPPED)...
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 5'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 6'                   
+[MROS2LIB] subscriber matched with remote publisher                             
+[MROS2LIB] publisher matched with remote subscriber                             
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'                   
+subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'                   
+subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'                   
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'                   
+subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'                   
 ...(SNIPPED)...
 ```
 
 ## Examples
 
 This repository contains some example applications in [workspace/](workspace/) to communicate with ROS 2 nodes on the host.
-Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/mros2-host-examples) repository for more detail about the host examples.
-
 You can switch the example by specifying the third argument of `build.bash`.
 Of course you can also create a new program file and specify it as your own application.
 
-### echoback_string
+Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/mros2-host-examples) repository for more detail about the host examples.
+
+### echoback_string (default)
 
 - Description:
   - The mROS 2 node on the embedded board publishes `string` (`std_msgs::msg::String`) message to `/to_linux` topic.
@@ -134,16 +188,16 @@ Of course you can also create a new program file and specify it as your own appl
 - Host operation:
   - `$ ros2 run mros2_echoreply_string echoreply_node`
 
-### echoreply_string (default)
+### echoreply_string
 
 - Description:
   - The mROS 2 node on the embedded board subscribes `string` (`std_msgs::msg::String`) message from `/to_stm` topic.
   - And then publishes this `string` message as it is to `/to_linux` as the reply.
 - Host operation:
-  - `$ ros2 launch mros2_echoback_string pubsub.launch.py`
-  - or, at two terminals:
-    - `$ ros2 run mros2_echoback_string pub_node`
-    - `$ ros2 run mros2_echoback_string sub_node`
+  - at first terminal: `$ ros2 run mros2_echoback_string sub_node`
+  - and then, at second terminal: `$ ros2 run mros2_echoback_string pub_node`
+  - or, at one terminal:
+    - `$ ros2 launch mros2_echoback_string pubsub.launch.py`
 
 ### pub_float32
 
@@ -152,16 +206,16 @@ Of course you can also create a new program file and specify it as your own appl
     - Note that this application just print whether the value of message is less than 0.0, between 0.0 and 1.0, or greater than 1.0.
     - If you want to print float value in serial console, you need to add `"target.printf_lib": "std"` into mbed_app.json (see [detail](https://forums.mbed.com/t/float-printf-doesnt-work-in-desktop-version/9164)). Note that linking std lib will increase the size of Flash memory.
 - Host operation:
-  - `$ ros2 launch mros2_sub_float32 sub.launch.py`
-  - or, `$ ros2 run mros2_sub_float32 sub_node`
+  - `$ ros2 run mros2_sub_float32 sub_node`
+  - or, `$ ros2 launch mros2_sub_float32 sub.launch.py`
 
 ### sub_uint16
 
 - Description:
   - The mROS 2 node on the embedded board subscribes `uint16` (`std_msgs::msg::UInt16`) message from `/to_stm` topic.
 - Host operation:
-  - `$ ros2 launch mros2_pub_uint16 pub.launch.py`
-  - or, `$ ros2 run mros2_pub_uint16 pub_node`
+  - `$ ros2 run mros2_pub_uint16 pub_node`
+  - or, `$ ros2 launch mros2_pub_uint16 pub.launch.py`
 
 ### pub_twist
 
@@ -169,8 +223,8 @@ Of course you can also create a new program file and specify it as your own appl
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `cmd_vel` topic.
   - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
-  - `$ ros2 launch mros2_sub_twist sub.launch.py`
-  - or, `$ ros2 run mros2_sub_twist sub_node`
+  - `$ ros2 run mros2_sub_twist sub_node`
+  - or, `$ ros2 launch mros2_sub_twist sub.launch.py`
 
 ### sub_pose
 
@@ -178,8 +232,8 @@ Of course you can also create a new program file and specify it as your own appl
   - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `cmd_vel` topic.
   - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
-  - `$ ros2 launch mros2_pub_pose pub.launch.py`
-  - or, `$ ros2 run mros2_pub_pose pub_node`
+  - `$ ros2 run mros2_pub_pose pub_node`
+  - or, `$ ros2 launch mros2_pub_pose pub.launch.py`
 
 ### mturtle_teleop
 
@@ -274,7 +328,6 @@ int main(int argc, char * argv[])
 
 `include/rtps/config.h` is the configuration file for embeddedRTPS.
 We may be able to realize the RTPS communication to the appropriate configuration by editting this file.
-Currently, we are unable to reconnect to the device from the host multiple times.
 
 And also, you can configure for lwIP (UDP/IP) by `mbed_app.json`. 
 Currently, we are unable to communicate large size of messages probably due to these configurations. 
