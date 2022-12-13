@@ -16,7 +16,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
     - For now, these boards below are confirmed to run the example on them.
       - [STM32 NUCLEO-F767ZI](https://www.st.com/en/evaluation-tools/nucleo-f767zi.html)
       - [STM32 NUCLEO-H743ZI2](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html)
-    - These boards below are also confirmed but not always supported in the latest version (due to our development resources,,,) 
+    - These boards below are also confirmed but not always supported in the latest version (due to our development resources,,,).
       - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
       - [STM32 F746NG-Discovery](https://www.st.com/ja/evaluation-tools/32f746gdiscovery.html)
       - [STM32 F769NI-Discovery](https://www.st.com/ja/evaluation-tools/32f769idiscovery.html)
@@ -33,7 +33,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
       - .2 will be assigned to the board
     - Netmask: 255.255.255.0
     - Gateway: 192.168.11.1
-  - The firewall on the host (Ubuntu) needs to be disabled for ROS 2 (DDS) communication (e.g. `$ sudo ufw disable`)
+  - The firewall on the host (Ubuntu) needs to be disabled for ROS 2 (DDS) communication (e.g. `$ sudo ufw disable`).
   - If the host is connected to the Internet other than wired network (e.g., Wi-Fi), communication with mros2 may not work properly. In that case, please turn off them.
 
 ## Getting Started
@@ -99,35 +99,7 @@ docker run --rm -it --net=host ros:humble /bin/bash \
   source install/setup.bash &&
   ros2 run mros2_echoreply_string echoreply_node"
 ```
-Then, we can confirm the communication between the PC and Mbed board via ROS 2 topic.
-```
-Cloning into 'mros2-host-examples'...
-remote: Enumerating objects: 831, done.
-remote: Counting objects: 100% (85/85), done.
-remote: Compressing objects: 100% (68/68), done.
-remote: Total 831 (delta 46), reused 26 (delta 15), pack-reused 746
-Receiving objects: 100% (831/831), 96.01 KiB | 7.38 MiB/s, done.
-Resolving deltas: 100% (448/448), done.
-Starting >>> mros2_echoreply_string
-Finished <<< mros2_echoreply_string [9.02s]                     
-
-Summary: 1 package finished [9.17s]
-[INFO] [1666012200.122092282] [mros2_echoreply_node]: 
-Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
-[INFO] [1666012200.122210443] [mros2_echoreply_node]: 
-Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
-[INFO] [1666012201.127168943] [mros2_echoreply_node]: 
-Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
-[INFO] [1666012201.127216518] [mros2_echoreply_node]: 
-Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
-[INFO] [1666012202.132162620] [mros2_echoreply_node]: 
-Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
-[INFO] [1666012202.132208473] [mros2_echoreply_node]: 
-Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
-[INFO] [1666012203.137265544] [mros2_echoreply_node]: 
-...(SNIPPED)...
-```
-Then, we can confirm the communication between the host and Mbed board.
+Then, we can confirm the communication between the host and Mbed board via ROS 2 topic.
 ```
 Cloning into 'mros2-host-examples'...
 remote: Enumerating objects: 831, done.
@@ -220,8 +192,8 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 ### pub_twist
 
 - Description:
-  - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `cmd_vel` topic.
-  - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
+  - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/cmd_vel` topic.
+  - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](./README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 run mros2_sub_twist sub_node`
   - or, `$ ros2 launch mros2_sub_twist sub.launch.py`
@@ -229,8 +201,8 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 ### sub_pose
 
 - Description:
-  - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `cmd_vel` topic.
-  - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
+  - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `/cmd_vel` topic.
+  - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](./README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 run mros2_pub_pose pub_node`
   - or, `$ ros2 launch mros2_pub_pose pub.launch.py`
@@ -258,7 +230,7 @@ On this platform, the mros2 application consists of the following files:
   - note that the file name must be this in order to generate the templates of pub/sub functions in the build step.
 - templates.hpp:
   - the templates of pub/sub functions
-  - this file will be automatically generated/modified during the build step, so you do not have to care about this file
+  - this file will be automatically generated/modified during the build step, so you do not have to care about this file.
 
 ## Generating header files for custom MsgTypes
 
@@ -296,7 +268,7 @@ $ cd workspace
 $ python3 ../mros2/mros2_header_generator/header_generator.py geometry_msgs/msg/Twist.msg
 ```
 
-Make sure header files for custom MsgType are generated in `custom_msgs/`
+Make sure header files for custom MsgType are generated in `custom_msgs/`.
 
 ```
 $ ls -R custom_msgs/
@@ -338,7 +310,7 @@ Please let us know about them if you have any opinions or awesome knowledges!
 ## Tips 2: Getting started in 5 minutes with the online compiler
 
 We also provide an online development environment for mros2-mbed. 
-By using the following Codes on Keil Studio Cloud (a.k.a Mbed Online Complier), you can try out the power of mros2 just in 5 minutes (we wish :D
+By using the following Codes on Keil Studio Cloud (a.k.a Mbed Online Complier), you can try out the power of mros2 just in 5 minute. (we wish :D
 
 - example application:
   - [mbed-os-example-mros2 (echoreply_string)](https://os.mbed.com/users/smoritaemb/code/mbed-os-example-mros2/)
@@ -355,5 +327,5 @@ Please note that this repository contains the following stacks as the submodules
 
 - [mros2](https://github.com/mROS-base/mros2): the pub/sub APIs compatible with ROS 2 Rclcpp
   - [embeddedRTPS](https://github.com/mROS-base/embeddedRTPS): RTPS communication layer (including lwIP and Micro-CDR)
-- [Mbed OS 6](https://github.com/ARMmbed/mbed-os): an open source embedded operating system designed specifically for the "things" in the Internet of Things.
+- [Mbed OS 6](https://github.com/ARMmbed/mbed-os): an open source embedded operating system designed specifically for the "things" in the Internet of Things
 
