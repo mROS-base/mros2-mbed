@@ -192,7 +192,7 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 ### pub_twist
 
 - Description:
-  - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `cmd_vel` topic.
+  - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/cmd_vel` topic.
   - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](./README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 run mros2_sub_twist sub_node`
@@ -201,7 +201,7 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 ### sub_pose
 
 - Description:
-  - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `cmd_vel` topic.
+  - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `/cmd_vel` topic.
   - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](./README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 run mros2_pub_pose pub_node`
