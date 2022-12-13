@@ -99,34 +99,6 @@ docker run --rm -it --net=host ros:humble /bin/bash \
   source install/setup.bash &&
   ros2 run mros2_echoreply_string echoreply_node"
 ```
-Then, we can confirm the communication between the PC and Mbed board via ROS 2 topic.
-```
-Cloning into 'mros2-host-examples'...
-remote: Enumerating objects: 831, done.
-remote: Counting objects: 100% (85/85), done.
-remote: Compressing objects: 100% (68/68), done.
-remote: Total 831 (delta 46), reused 26 (delta 15), pack-reused 746
-Receiving objects: 100% (831/831), 96.01 KiB | 7.38 MiB/s, done.
-Resolving deltas: 100% (448/448), done.
-Starting >>> mros2_echoreply_string
-Finished <<< mros2_echoreply_string [9.02s]                     
-
-Summary: 1 package finished [9.17s]
-[INFO] [1666012200.122092282] [mros2_echoreply_node]: 
-Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
-[INFO] [1666012200.122210443] [mros2_echoreply_node]: 
-Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 7'
-[INFO] [1666012201.127168943] [mros2_echoreply_node]: 
-Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
-[INFO] [1666012201.127216518] [mros2_echoreply_node]: 
-Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 8'
-[INFO] [1666012202.132162620] [mros2_echoreply_node]: 
-Subscribed msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
-[INFO] [1666012202.132208473] [mros2_echoreply_node]: 
-Publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 9'
-[INFO] [1666012203.137265544] [mros2_echoreply_node]: 
-...(SNIPPED)...
-```
 Then, we can confirm the communication between the host and Mbed board.
 ```
 Cloning into 'mros2-host-examples'...
