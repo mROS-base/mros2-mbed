@@ -99,7 +99,7 @@ docker run --rm -it --net=host ros:humble /bin/bash \
   source install/setup.bash &&
   ros2 run mros2_echoreply_string echoreply_node"
 ```
-Then, we can confirm the communication between the host and Mbed board.
+Then, we can confirm the communication between the host and Mbed board via ROS 2 topic.
 ```
 Cloning into 'mros2-host-examples'...
 remote: Enumerating objects: 831, done.
