@@ -221,7 +221,7 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 
 - Description:
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `cmd_vel` topic.
-  - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
+  - This application requires to generated header files for `Twist` and `Vector3`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](./README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 run mros2_sub_twist sub_node`
   - or, `$ ros2 launch mros2_sub_twist sub.launch.py`
@@ -230,7 +230,7 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
 
 - Description:
   - The mROS 2 node on the embedded board subscibes `Pose` (`geometry_msgs::msg::Pose`) message to `cmd_vel` topic.
-  - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](../README.md#generating-header-files-for-custom-msgtypes).
+  - This application requires to generated header files for `Pose`, `Point` and `Quartenion`. See detail in [<repo_root>/README.md#generating-header-files-for-custom-msgtypes](./README.md#generating-header-files-for-custom-msgtypes).
 - Host operation:
   - `$ ros2 run mros2_pub_pose pub_node`
   - or, `$ ros2 launch mros2_pub_pose pub.launch.py`
