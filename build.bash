@@ -4,7 +4,7 @@
 if [ $# -ne 1 -a $# -ne 3 -a $# -ne 4 ];
 then
   echo "ERROR: args invalid"
-  echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>] [{native|docker}]"
+  echo "USAGE: build.bash {all|rebuild|clean|distclean} [<TARGET> <APPNAME>] [{native|docker}]"
   exit 1
 fi
 
@@ -28,7 +28,7 @@ then
   exit 0
 else
   echo "ERROR: args invalid"
-  echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>] [{native|docker}]"
+  echo "USAGE: build.bash {all|rebuild|clean|distclean} [<TARGET> <APPNAME>] [{native|docker}]"
   exit 1
 fi
 
@@ -60,7 +60,7 @@ then
   else
     echo "ERROR: args invalid"
     echo "ERROR: \"native\" or \"docker\" should be specified as 4th arg"
-    echo "USAGE: build.bash {all|rebuild|clean|disclean} [<TARGET> <APPNAME>]"
+    echo "USAGE: build.bash {all|rebuild|clean|distclean} [<TARGET> <APPNAME>]"
     exit 1
   fi
 else
