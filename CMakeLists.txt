@@ -23,19 +23,7 @@ else()
   set(APP_NAME "echoback_string")
 endif()
 message(STATUS "APP_NAME=${APP_NAME}")
-
-if (${APP_NAME} STREQUAL "pub_long_string_sub_crc")
-  set(TMP_LONG_TEXT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/workspace/${APP_NAME}/long_text.txt)
-  add_executable(${APP_TARGET} workspace/${APP_NAME}/app.cpp workspace/${APP_NAME}/long_text.txt)
-  add_custom_command(OUTPUT workspace/${APP_NAME}/long_text.txt
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${TMP_LONG_TEXT_PATH}
-    COMMAND "sed" "-i" "-e" "'s/\\\"/\\\\\"/g'" ${TMP_LONG_TEXT_PATH}
-    COMMAND "sed" "-i" "-e" "'s/$$/\\\\n\\\"/'" ${TMP_LONG_TEXT_PATH}
-    COMMAND "sed" "-i" "-e" "'s/^/\\\"/'" ${TMP_LONG_TEXT_PATH}
-    )
-else ()
-    add_executable(${APP_TARGET} workspace/${APP_NAME}/app.cpp)
-endif()
+add_executable(${APP_TARGET} workspace/${APP_NAME}/app.cpp)
 
 target_link_libraries(${APP_TARGET} mbed-os mbed-lwipstack mros2)
 

@@ -1,6 +1,6 @@
 
-#include "std_msgs/msg/u_int32.hpp"
 #include "std_msgs/msg/string.hpp"
+#include "std_msgs/msg/u_int32.hpp"
 
 
 template mros2::Publisher mros2::Node::create_publisher<std_msgs::msg::String>(std::string topic_name, int qos);
