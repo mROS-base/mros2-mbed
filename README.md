@@ -221,6 +221,43 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from Joystick module.
 - Please see [mturtle_teleop_joy/README.md](workspace/mturtle_teleop_joy/README.md) for more detail including host operation.
 
+### pub_camera_image
+
+- Description:
+  - This sample application is an example to demonstrate the fragmented message feature added by the Pull-Request below.
+    https://github.com/mROS-base/mros2-mbed/issues/32
+  - The mROS 2 node on the embedded board publishes an `Image` (`sensor_msgs::msg::Image`) message to the '/to_linux` topic.
+  - This sample uses the DCMI I/F of STM32 MCU as a camera I/F.
+  - The camera module to be used is the prevalence one like below.
+    https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4166233
+  - For some NUCLEO boards(e.g. NUCELO-F429ZI), you might have to solder two pin headers on both PA8 and PB7 to connect them to XCLK and VSYNC respectively.
+  - The whole of the pin connections between the MCU and the camera module should be below.
+    ```
+    MCU         Camera module
+    3.3V    ---      3V3
+    GND     ---      GND
+    PB9     ---      SDA
+    PB8     ---      SCL
+    PB7     ---      VSYNC
+    PA4     ---      HSYNC(or HREF)
+    PA6     ---      PIXCLK(or PCLK)
+    PA8     ---      XCLK
+    PE6     ---      D7
+    PE5     ---      D6
+    PB6     ---      D5
+    PE4     ---      D4
+    PC9     ---      D3
+    PC8     ---      D2
+    PC7     ---      D1
+    PC6     ---      D0
+    PA0     --       Reset
+    GND     ---      PWNDN
+    ```
+    refs: https://www.stmcu.jp/design/document/users_manual/52234/
+- Host operation:
+  - `$ rqt `
+  - And then, subscribe to the topic '/to_linux` on the GUI.
+
 ## Files for the application
 
 On this platform, the mros2 application consists of the following files:
