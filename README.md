@@ -256,7 +256,8 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
     refs: https://www.stmcu.jp/design/document/users_manual/52234/
 - Host operation:
   - `$ rqt `
-  - And then, subscribe to the topic '/to_linux` on the GUI.
+  - And then, subscribe to the topic '/to_linux` on the GUI like below.  
+    [Movie Sample](https://github-production-user-asset-6210df.s3.amazonaws.com/90823686/243369057-839cf812-eb1d-45bf-820e-e0166253899c.webm)
 
 ## Files for the application
 
