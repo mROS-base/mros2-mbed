@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-#include "mbed.h"
 #include "mros2.h"
+#include "mros2_target.h"
 #include "std_msgs/msg/string.hpp"
-#include "EthernetInterface.h"
-
-#define IP_ADDRESS ("192.168.11.2") /* IP address */
-#define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
-#define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
-
-/* convert TARGET_NAME to put into message */
-#define quote(x) std::string(q(x))
-#define q(x) #x
 
 
 void userCallback(std_msgs::msg::String *msg)
@@ -34,10 +25,7 @@ void userCallback(std_msgs::msg::String *msg)
 }
 
 int main() {
-  EthernetInterface network;
-  network.set_dhcp(false);
-  network.set_network(IP_ADDRESS, SUBNET_MASK, DEFAULT_GATEWAY);
-  nsapi_size_or_error_t result = network.connect();
+  mros2_target::network_connect();
 
   printf("mbed mros2 start!\r\n");
   printf("app name: echoback_string\r\n");
