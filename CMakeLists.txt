@@ -32,13 +32,13 @@ execute_process(COMMAND git submodule update --init --recursive
 add_library(mros2 INTERFACE)
 add_subdirectory(mros2)
 
-set(RTPS_CONFIG_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/target")
 
 target_include_directories(
   mros2-mbed
   PRIVATE workspace/${APP_NAME}
   PRIVATE workspace/custom_msgs
-  PRIVATE ${RTPS_CONFIG_INCLUDE_DIR}
+  PRIVATE ${MROS2_TARGET_DIR}
 )
 
 mbed_set_post_build(${APP_TARGET})
