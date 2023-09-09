@@ -24,7 +24,7 @@ else()
 endif()
 message(STATUS "APP_NAME=${APP_NAME}")
 add_executable(${APP_TARGET}
-  target/mros2_target.cpp
+  platform/mros2-platform.cpp
   workspace/${APP_NAME}/app.cpp
 )
 
@@ -35,7 +35,7 @@ execute_process(COMMAND git submodule update --init --recursive
 add_library(mros2 INTERFACE)
 add_subdirectory(mros2)
 
-set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/target")
+set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/platform")
 
 target_include_directories(
   mros2-mbed

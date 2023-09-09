@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-#include "mros2_target.h"
+#include "mros2.h"
+#include "mros2-platform.h"
 #include "mbed.h"
 
 
-namespace mros2_target
+namespace mros2_platform
 {
 
 /*
@@ -31,7 +32,7 @@ nsapi_error_t network_connect(void)
 
 #ifdef MROS2_IP_ADDRESS_STATIC
   network.set_dhcp(false);
-  network.set_network(IP_ADDRESS, SUBNET_MASK, DEFAULT_GATEWAY);
+  network.set_network(MROS2_IP_ADDRESS, MROS2_SUBNET_MASK, MROS2_DEFAULT_GATEWAY);
 #else  /* MROS2_IP_ADDRESS_STATIC */
   network.set_dhcp(true);
 #endif /* MROS2_IP_ADDRESS_STATIC */
@@ -46,13 +47,16 @@ nsapi_error_t network_connect(void)
 
   SocketAddress socketAddress;
   network.get_ip_address(&socketAddress);
-  printf("  IP Address: %s\r\n", socketAddress.get_ip_address());
-  network.get_netmask(&socketAddress);
-  printf("  NETMASK   : %s\r\n", socketAddress.get_ip_address());
-  network.get_gateway(&socketAddress);
-  printf("  GATEWAY   : %s\r\n", socketAddress.get_ip_address());
+  const char* ip_address = socketAddress.get_ip_address();
+  printf("  IP Address: %s\r\n", ip_address);
+
+  /* convert IP address to be used in rtps/config.h */
+  std::array<uint8_t, 4> ipaddr;
+  sscanf(ip_address, "%d.%d.%d.%d", &ipaddr[0], &ipaddr[1], &ipaddr[2], &ipaddr[3]);
+
+  mros2::setIPAddrRTPS(ipaddr);
 
   return result;
 }
 
-}  /* namespace mros2_target */
+}  /* namespace mros2_platform */
