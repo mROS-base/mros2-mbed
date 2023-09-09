@@ -347,6 +347,12 @@ Please let us know about them if you have any opinions or awesome knowledges!
 
 ## Tips 2: Getting started in 5 minutes with the online compiler
 
+```
+Caution: 
+ Although you can easily try out the basic features of mros2 online, this environment has not been fully maintained.
+ Note that new features such as uniquely defined message types are not available.
+```
+
 We also provide an online development environment for mros2-mbed. 
 By using the following Codes on Keil Studio Cloud (a.k.a Mbed Online Complier), you can try out the power of mros2 just in 5 minute. (we wish :D
 
