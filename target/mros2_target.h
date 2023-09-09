@@ -4,13 +4,25 @@
 #include "mbed.h"
 #include "EthernetInterface.h"
 
+/*
+ * Caution:
+ *  We have not confirmed the operation using DHCP setting yet.
+ *  So you cannot comment out the below line to assign static IP address.
+ */
+#define MROS2_IP_ADDRESS_STATIC
+
+/* You need to set static IP Address and network config */
+#ifdef MROS2_IP_ADDRESS_STATIC
 #define IP_ADDRESS ("192.168.11.2") /* IP address */
 #define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
 #define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
+#endif /* MROS2_IP_ADDRESS_STATIC */
+
 
 /* convert TARGET_NAME to put into message */
 #define quote(x) std::string(q(x))
 #define q(x) #x
+
 
 namespace mros2_target
 {

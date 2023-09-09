@@ -29,13 +29,28 @@ nsapi_error_t network_connect(void)
   EthernetInterface network;
   nsapi_size_or_error_t result;
 
+#ifdef MROS2_IP_ADDRESS_STATIC
   network.set_dhcp(false);
   network.set_network(IP_ADDRESS, SUBNET_MASK, DEFAULT_GATEWAY);
+#else  /* MROS2_IP_ADDRESS_STATIC */
+  network.set_dhcp(true);
+#endif /* MROS2_IP_ADDRESS_STATIC */
   result = network.connect();
+
+  if (result) {
+    printf("Network connection failed: %d\r\n", result);
+    return result;
+  } else {
+    printf("Successfully connected to network\r\n");
+  }
 
   SocketAddress socketAddress;
   network.get_ip_address(&socketAddress);
-  printf("IP Address is %s\n", socketAddress.get_ip_address());
+  printf("  IP Address: %s\r\n", socketAddress.get_ip_address());
+  network.get_netmask(&socketAddress);
+  printf("  NETMASK   : %s\r\n", socketAddress.get_ip_address());
+  network.get_gateway(&socketAddress);
+  printf("  GATEWAY   : %s\r\n", socketAddress.get_ip_address());
 
   return result;
 }
