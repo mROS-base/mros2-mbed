@@ -1,6 +1,8 @@
 #ifndef MROS2_PLATFORM_H
 #define MROS2_PLATFORM_H
 
+#define MROS2_PLATFORM_NAME "mros2-mbed"
+
 #include "mbed.h"
 #include "EthernetInterface.h"
 

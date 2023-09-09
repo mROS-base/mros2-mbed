@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#include "mbed.h"
 #include "mros2.h"
+#include "mros2-platform.h"
 #include "std_msgs/msg/string.hpp"
 #include "std_msgs/msg/u_int32.hpp"
-#include "EthernetInterface.h"
+
 
 // imported from
 // https://github.com/aeldidi/crc32/blob/master/src/crc32.c
@@ -50,11 +50,6 @@ crc32(const void *input, size_t size)
   return ~result;
 }
 
-
-#define IP_ADDRESS ("192.168.11.2") /* IP address */
-#define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
-#define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
-
 const char long_text[] =
 #include "long_text.txt"
   ;
@@ -70,13 +65,12 @@ void userCallback(std_msgs::msg::UInt32 *msg)
 }
 
 int main() {
-  EthernetInterface network;
-  network.set_dhcp(false);
-  network.set_network(IP_ADDRESS, SUBNET_MASK, DEFAULT_GATEWAY);
-  nsapi_size_or_error_t result = network.connect();
-
-  printf("mbed mros2 start!\r\n");
+  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
   printf("app name: pub_long_string_sub_crc\r\n");
+ 
+  /* connect to the network */
+  mros2_target::network_connect();
+
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 

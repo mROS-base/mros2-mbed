@@ -15,7 +15,7 @@
  */
 
 #include "mros2.h"
-#include "mros2_target.h"
+#include "mros2-platform.h"
 #include "std_msgs/msg/string.hpp"
 
 
@@ -25,11 +25,11 @@ void userCallback(std_msgs::msg::String *msg)
 }
 
 int main() {
-  printf("mbed mros2 start!\r\n");
+  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
   printf("app name: echoback_string\r\n");
 
   /* connect to the network */
-  mros2_target::network_connect();
+  mros2_platform::network_connect();
 
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
@@ -44,7 +44,7 @@ int main() {
   auto count = 0;
   while (1) {
     auto msg = std_msgs::msg::String();
-    msg.data = "Hello from mros2-mbed onto " + quote(TARGET_NAME) + ": " + std::to_string(count++);
+    msg.data = "Hello from " + std::string(MROS2_PLATFORM_NAME) + " onto " + quote(TARGET_NAME) + ": " + std::to_string(count++);
     printf("publishing msg: '%s'\r\n", msg.data.c_str());
     pub.publish(msg);
     osDelay(1000);

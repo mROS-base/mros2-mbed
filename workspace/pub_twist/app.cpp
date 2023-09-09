@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-#include "mbed.h"
 #include "mros2.h"
+#include "mros2-platform.h"
 #include "geometry_msgs/msg/vector3.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include "EthernetInterface.h"
-
-#define IP_ADDRESS ("192.168.11.2") /* IP address */
-#define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
-#define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
 
 
 int main() {
-  EthernetInterface network;
-  network.set_dhcp(false);
-  network.set_network(IP_ADDRESS, SUBNET_MASK, DEFAULT_GATEWAY);
-  nsapi_size_or_error_t result = network.connect();
-
-  printf("mbed mros2 start!\r\n");
+  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
   printf("app name: pub_twist\r\n");
+
+  /* connect to the network */
+  mros2_target::network_connect();
+
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
