@@ -28,11 +28,12 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
   - [ROS 2 Humble Hawksbill](https://docs.ros.org/en/humble/index.html) on Ubuntu 22.04 LTS
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
 - Network setting
-  - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board (if you want to change them, please edit both `app.cpp` and `include/rtps/config.h`).
-    - IP address: 192.168.11.x
-      - .2 will be assigned to the board
+  - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board.
+    - IP address: 192.168.11.2 (that will be assigned to the board)
     - Netmask: 255.255.255.0
     - Gateway: 192.168.11.1
+      - You can configure them by editing `platform/mros2-platform.h`.
+      - Note that we have not confirmed the operation using DHCP setting yet. So you cannot comment out the `#define MROS2_IP_ADDRESS_STATIC` line to assign static IP address.
   - The firewall on the host (Ubuntu) needs to be disabled for ROS 2 (DDS) communication (e.g. `$ sudo ufw disable`).
   - If the host is connected to the Internet other than wired network (e.g., Wi-Fi), communication with mros2 may not work properly. In that case, please turn off them.
 
@@ -69,23 +70,26 @@ cmake_build/[TARGET]/develop/GCC_ARM/mros2-mbed.bin
 5. Copy the executable binary above to the Mbed Board.
    (you may find it in the Nautilus file manager as NODE_F429ZI, F767ZI or DAPLINK.)
 ```
-mbed mros2 start!                                                               
-app name: echoback_string                                                       
-[MROS2LIB] mros2_init task start                                                
-mROS 2 initialization is completed                                              
-                                                                                
-[MROS2LIB] create_node                                                          
-[MROS2LIB] start creating participant                                           
-[MROS2LIB] successfully created participant                                     
-[MROS2LIB] create_publisher complete.                                           
-[MROS2LIB] create_subscription complete.                                        
-[MROS2LIB] Initilizing Domain complete                                          
-ready to pub/sub message                                                        
-                                                                                
-publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 0'                   
-publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 1'                   
-publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 2'                   
-publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 3'        
+mros2-mbed start!
+app name: echoback_string
+Successfully connected to network
+  IP Address: 192.168.11.2
+[MROS2LIB] set IP address for RTPS communication
+[MROS2LIB] mros2_init task start
+mROS 2 initialization is completed
+
+[MROS2LIB] create_node
+[MROS2LIB] start creating participant
+[MROS2LIB] successfully created participant
+[MROS2LIB] create_publisher complete.
+[MROS2LIB] create_subscription complete.
+[MROS2LIB] Initilizing Domain complete
+ready to pub/sub message
+
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 0'
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 1'
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 2'
+publishing msg: 'Hello from mros2-mbed onto NUCLEO_F767ZI: 3'
 ...(SNIPPED)...
 ```
 6. One of the easiest way to operate the host is using Docker. On the host terminal, type the command below.
@@ -221,17 +225,27 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
   - The mROS 2 node on the embedded board publishes `Twist` (`geometry_msgs::msg::Twist`) message to `/turtle1/cmd_vel` topic, according to the input from Joystick module.
 - Please see [mturtle_teleop_joy/README.md](workspace/mturtle_teleop_joy/README.md) for more detail including host operation.
 
+### pub_long_string_sub_crc
+
+- Description:
+  - This sample application is an example to demonstrate the fragmented message feature added by the Pull-Request below.
+    https://github.com/mROS-base/mros2-mbed/issues/32
+  - The mROS 2 node on the embedded board publishes too long `string` (`std_msgs::msg::String`) message prepared in `long_text.txt` to the `/to_linux` topic.
+  - (The node on the host will calculate the CRC value of subscribed long string, and publish the value as the reply.)
+  - The mROS 2 node subscribes `uint32` (`std_msgs::msg::UInt32`) message as the calculated CRC value from `/to_stm` topic.
+- Host operation:
+  - `$ ros2 run mros2_sub_long_string_pub_crc sub_long_string_pub_crc_node`
+
 ### pub_camera_image
 
 - Description:
   - This sample application is an example to demonstrate the fragmented message feature added by the Pull-Request below.
     https://github.com/mROS-base/mros2-mbed/issues/32
-  - The mROS 2 node on the embedded board publishes an `Image` (`sensor_msgs::msg::Image`) message to the '/to_linux` topic.
-  - This sample uses the DCMI I/F of STM32 MCU as a camera I/F.
-  - The camera module to be used is the prevalence one like below.
+  - The mROS 2 node on the embedded board publishes an `Image` (`sensor_msgs::msg::Image`) message to the `/to_linux` topic.
+  - This sample uses the DCMI I/F of STM32 MCU as a camera I/F. The camera module to be used is the prevalence one like below.
     https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4166233
-  - For some NUCLEO boards(e.g. NUCELO-F429ZI), you might have to solder two pin headers on both PA8 and PB7 to connect them to XCLK and VSYNC respectively.
-  - The whole of the pin connections between the MCU and the camera module should be below.
+    - If you don't have the camera module but want to try publishing image, you can use `pub_image` sample instead (that publises a dummy image defined in `mros_image.h`).
+  - For some NUCLEO boards (e.g., NUCELO-F429ZI), you might have to solder two pin headers on both PA8 and PB7 to connect them to XCLK and VSYNC respectively. The whole of the pin connections between the MCU and the camera module should be below.
     ```
     MCU         Camera module
     3.3V    ---      3V3
@@ -256,7 +270,7 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
     refs: https://www.stmcu.jp/design/document/users_manual/52234/
 - Host operation:
   - `$ rqt `
-  - And then, subscribe to the topic '/to_linux` on the GUI like below.  
+  - And then, subscribe to the topic `/to_linux` and visualize it by `Image View` on the GUI like below.  
     [Movie Sample](https://github-production-user-asset-6210df.s3.amazonaws.com/90823686/243369057-839cf812-eb1d-45bf-820e-e0166253899c.webm)
 
 ## Files for the application
@@ -347,6 +361,10 @@ Please let us know about them if you have any opinions or awesome knowledges!
 
 ## Tips 2: Getting started in 5 minutes with the online compiler
 
+> Caution: 
+> Although you can easily try out the basic features of mros2 online, this environment has not been fully maintained.
+> Note that new features such as uniquely defined message types are not available.
+
 We also provide an online development environment for mros2-mbed. 
 By using the following Codes on Keil Studio Cloud (a.k.a Mbed Online Complier), you can try out the power of mros2 just in 5 minute. (we wish :D
 
@@ -366,4 +384,3 @@ Please note that this repository contains the following stacks as the submodules
 - [mros2](https://github.com/mROS-base/mros2): the pub/sub APIs compatible with ROS 2 Rclcpp
   - [embeddedRTPS](https://github.com/mROS-base/embeddedRTPS): RTPS communication layer (including lwIP and Micro-CDR)
 - [Mbed OS 6](https://github.com/ARMmbed/mbed-os): an open source embedded operating system designed specifically for the "things" in the Internet of Things
-

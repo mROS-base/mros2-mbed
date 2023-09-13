@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-#include "mbed.h"
-#include "EthernetInterface.h"
 #include "mros2.h"
+#include "mros2-platform.h"
 #include "sensor_msgs/msg/image.hpp"
+
 
 #define OV7670_WRITE   (0x42)
 #define OV7670_READ    (0x43)
@@ -411,15 +411,14 @@ OV7670 s(PB_9,PB_8,PA_0);
 
 int main(int argc, char* argv[])
 {
-  EthernetInterface network;
+  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
+  printf("app name: pub_camera_image\r\n");
+
   auto msg = sensor_msgs::msg::Image();
 
-  network.set_dhcp(false);
-  network.set_network(IP_ADDRESS, SUBNET_MASK, DEFAULT_GATEWAY);
-  nsapi_size_or_error_t result = network.connect();
+  /* connect to the network */
+  mros2_platform::network_connect();
 
-  printf("mros2-posix start!\r\n");
-  printf("app name: pub_camera_image\r\n");
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
   

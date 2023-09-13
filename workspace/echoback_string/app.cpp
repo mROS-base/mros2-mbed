@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-#include "mbed.h"
 #include "mros2.h"
+#include "mros2-platform.h"
 #include "std_msgs/msg/string.hpp"
-#include "EthernetInterface.h"
-
-#define IP_ADDRESS ("192.168.11.2") /* IP address */
-#define SUBNET_MASK ("255.255.255.0") /* Subnet mask */
-#define DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
-
-/* convert TARGET_NAME to put into message */
-#define quote(x) std::string(q(x))
-#define q(x) #x
 
 
 void userCallback(std_msgs::msg::String *msg)
@@ -34,13 +25,12 @@ void userCallback(std_msgs::msg::String *msg)
 }
 
 int main() {
-  EthernetInterface network;
-  network.set_dhcp(false);
-  network.set_network(IP_ADDRESS, SUBNET_MASK, DEFAULT_GATEWAY);
-  nsapi_size_or_error_t result = network.connect();
-
-  printf("mbed mros2 start!\r\n");
+  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
   printf("app name: echoback_string\r\n");
+
+  /* connect to the network */
+  mros2_platform::network_connect();
+
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
 
@@ -54,7 +44,7 @@ int main() {
   auto count = 0;
   while (1) {
     auto msg = std_msgs::msg::String();
-    msg.data = "Hello from mros2-mbed onto " + quote(TARGET_NAME) + ": " + std::to_string(count++);
+    msg.data = "Hello from " + std::string(MROS2_PLATFORM_NAME) + " onto " + quote(TARGET_NAME) + ": " + std::to_string(count++);
     printf("publishing msg: '%s'\r\n", msg.data.c_str());
     pub.publish(msg);
     osDelay(1000);
