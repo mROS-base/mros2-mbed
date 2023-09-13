@@ -25,7 +25,7 @@ int main() {
   printf("app name: pub_twist\r\n");
 
   /* connect to the network */
-  mros2_target::network_connect();
+  mros2_platform::network_connect();
 
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");

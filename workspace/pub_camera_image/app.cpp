@@ -417,7 +417,7 @@ int main(int argc, char* argv[])
   auto msg = sensor_msgs::msg::Image();
 
   /* connect to the network */
-  mros2_target::network_connect();
+  mros2_platform::network_connect();
 
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed\r\n");
