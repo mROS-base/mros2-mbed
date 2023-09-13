@@ -1,5 +1,10 @@
 #!/bin/bash
 
+### set filename(s) that includes mros2 API
+### separate by space if multiple files want to be specified, e.g, ("a.cpp" "b.cpp")
+FILENAME=("app.cpp")
+echo ${FILENAME[@]}
+
 ### setup operation ###
 if [ $# -ne 1 -a $# -ne 3 -a $# -ne 4 ];
 then
@@ -43,7 +48,7 @@ else
 fi
 
 DOCKERCMD_PRE="docker run --rm -it --mount type=bind,source=$(pwd),destination=/var/mbed \
-  -w /var/mbed -e APPNAME=${APPNAME} ghcr.io/armmbed/mbed-os-env \
+  -w /var/mbed -e APPNAME=${APPNAME} -e FILENAME=\"${FILENAME[@]}\" ghcr.io/armmbed/mbed-os-env \
   /bin/bash -c \""
 DOCKERCMD_SUF="\""
 if [ $# == 4 ];
@@ -54,6 +59,7 @@ then
     DOCKERCMD_PRE=""
     DOCKERCMD_SUF=""
     export APPNAME=${APPNAME}
+    export FILENAME=${FILENAME}
   elif [ ${4} = "docker" ];
   then
     echo "INFO: build operation will be executed on dokcer env"
@@ -70,6 +76,7 @@ fi
 echo "INFO: build setting"
 echo "      TARGET=${TARGET}"
 echo "      APPNAME=${APPNAME}"
+echo "      FILENAME=${FILENAME[@]}"
 
 
 ### build a project ###
@@ -85,7 +92,7 @@ TEMPLATESGEN_FILE=${MROS2DIR}/mros2_header_generator/templates_generator.py
 
 echo "INFO: generate header file for template functions of MsgType"
 cd workspace
-python3 ${TEMPLATESGEN_FILE} ${APPNAME}
+python3 ${TEMPLATESGEN_FILE} --app ${APPNAME} --file ${FILENAME[@]}
 if [ $? -eq 0 ];
 then
   echo "INFO: header fille for template function of ${APPNAME}'s MsgType is successfully generated"
