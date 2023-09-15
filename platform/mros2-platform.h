@@ -15,9 +15,9 @@
 
 /* You need to set static IP Address and network config */
 #ifdef MROS2_IP_ADDRESS_STATIC
-#define MROS2_IP_ADDRESS ("192.168.11.2") /* IP address */
+#define MROS2_IP_ADDRESS ("192.168.12.2") /* IP address */
 #define MROS2_SUBNET_MASK ("255.255.255.0") /* Subnet mask */
-#define MROS2_DEFAULT_GATEWAY ("192.168.11.1") /* Default gateway */
+#define MROS2_DEFAULT_GATEWAY ("192.168.12.1") /* Default gateway */
 #endif /* MROS2_IP_ADDRESS_STATIC */
 
 /* convert TARGET_NAME to put into message */

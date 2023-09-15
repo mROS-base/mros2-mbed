@@ -4,11 +4,11 @@
 cmake_minimum_required(VERSION 3.19.0)
 
 set(MBED_PATH
-    ${CMAKE_CURRENT_SOURCE_DIR}/mbed-os
-    CACHE INTERNAL "")
+  ${CMAKE_CURRENT_SOURCE_DIR}/mbed-os
+  CACHE INTERNAL "")
 set(MBED_CONFIG_PATH
-    ${CMAKE_CURRENT_BINARY_DIR}
-    CACHE INTERNAL "")
+  ${CMAKE_CURRENT_BINARY_DIR}
+  CACHE INTERNAL "")
 set(APP_TARGET mros2-mbed)
 
 include(${MBED_PATH}/tools/cmake/app.cmake)
@@ -32,12 +32,12 @@ add_executable(${APP_TARGET}
 target_link_libraries(${APP_TARGET} mbed-os mbed-lwipstack mros2)
 
 execute_process(COMMAND git submodule update --init --recursive
-                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/mros2)
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/mros2)
 add_library(mros2 INTERFACE)
 add_subdirectory(mros2)
 
 execute_process(COMMAND
-  python3 ${CMAKE_CURRENT_SOURCE_DIR}/mros2/mros2_header_generator/templates_generator.py --outdir . --file app.cpp
+  python3 ${CMAKE_CURRENT_SOURCE_DIR}/mros2/mros2_header_generator/templates_generator.py --outdir ${CMAKE_CURRENT_SOURCE_DIR}/platform --file app.cpp
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/workspace/${APP_NAME})
 
 set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/platform")
