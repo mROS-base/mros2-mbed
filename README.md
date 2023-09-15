@@ -29,7 +29,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
 - Network setting
   - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board.
-    - IP address: 192.168.11.2 (that will be assigned to the board)
+    - IP address: 192.168.11.x (.2 will be assigned to the board)
     - Netmask: 255.255.255.0
     - Gateway: 192.168.11.1
       - You can configure them by editing `platform/mros2-platform.h`.
