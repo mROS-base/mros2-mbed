@@ -1,0 +1,56 @@
+name: build_app
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/armmbed/mbed-os-env:master-latest
+    env:
+      target_board: NUCLEO_F767ZI
+    strategy:
+      fail-fast: false
+      matrix:
+        app_name:
+        - echoback_string
+        - echoreply_string
+        - pub_float32
+        - pub_twist
+        - sub_uint16
+        - sub_pose
+        - mturtle_teleop
+        - mturtle_teleop_joy
+        - pub_camera_image
+        - pub_image
+        - pub_long_string_sub_crc
+    steps:
+      - uses: actions/checkout@v3
+      - uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD
+      - uses: actions/cache@v3
+        with:
+          path: mbed-os
+          key: mbed-os_cache-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.app_name }}
+      - uses: actions/cache@v3
+        with:
+          path: cmake_build
+          key: cmake_build_cache-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.app_name }}
+      - uses: OUXT-Polaris/build-mbed-app-action@master
+        env:
+          APPNAME: ${{ matrix.app_name }}
+        with:
+          target_board: ${{ env.target_board }}
+          toolchain: GCC_ARM
+      - uses: actions/upload-artifact@v3
+        with:
+          name: bin-${{ matrix.app_name }}
+          path: cmake_build/${{ env.target_board }}/develop/GCC_ARM/*.bin
