@@ -23,10 +23,16 @@ else()
   set(APP_NAME "echoback_string")
 endif()
 message(STATUS "APP_NAME=${APP_NAME}")
+
+# specify your own files for the application
+set(APP_SRCS
+  workspace/${APP_NAME}/app.cpp
+)
+message(STATUS "APP_SRCS=${APP_SRCS}")
+
 add_executable(${APP_TARGET}
   platform/mros2-platform.cpp
-  # specify your own files for the application
-  workspace/${APP_NAME}/app.cpp
+  ${APP_SRCS}
 )
 
 target_link_libraries(${APP_TARGET} mbed-os mbed-lwipstack mros2)
@@ -37,8 +43,8 @@ add_library(mros2 INTERFACE)
 add_subdirectory(mros2)
 
 execute_process(COMMAND
-  python3 ${CMAKE_CURRENT_SOURCE_DIR}/mros2/mros2_header_generator/templates_generator.py --outdir ${CMAKE_CURRENT_SOURCE_DIR}/platform --file app.cpp
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/workspace/${APP_NAME})
+  python3 ${CMAKE_CURRENT_SOURCE_DIR}/mros2/mros2_header_generator/templates_generator.py --outdir ${CMAKE_CURRENT_SOURCE_DIR}/platform --file ${APP_SRCS}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/platform")
 

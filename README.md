@@ -273,14 +273,11 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
   - And then, subscribe to the topic `/to_linux` and visualize it by `Image View` on the GUI like below.  
     [Movie Sample](https://github-production-user-asset-6210df.s3.amazonaws.com/90823686/243369057-839cf812-eb1d-45bf-820e-e0166253899c.webm)
 
-## Files for the application
+## Note: File for the application
 
-On this platform, the mros2 application consists of the following files:
-
-- app.cpp: 
-  - main source of the application
-  - your own file name(s) that include mros2 API can be specified at the top of `build.bash`
-  - you also need to edit `add_executable` in `CMakeLists.txt` to specify source code of the application
+The main source of the application is `app.cpp`.
+You can change filename by editing `${APP_SRCS}` in `CMakeLists.txt`.
+Currently, we could not handle multiple files as source code,,,
 
 ## Generating header files for custom MsgTypes
 
