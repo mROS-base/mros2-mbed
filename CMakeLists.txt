@@ -25,6 +25,7 @@ endif()
 message(STATUS "APP_NAME=${APP_NAME}")
 add_executable(${APP_TARGET}
   platform/mros2-platform.cpp
+  # specify your own files for the application
   workspace/${APP_NAME}/app.cpp
 )
 

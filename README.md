@@ -279,10 +279,11 @@ On this platform, the mros2 application consists of the following files:
 
 - app.cpp: 
   - main source of the application
-  - note that the file name must be this in order to generate the templates of pub/sub functions in the build step.
+  - your own file name(s) that include mros2 API can be specified at the top of `build.bash`
+  - you also need to edit `add_executable` in `CMakeLists.txt` to specify source code of the application
 - templates.hpp:
   - the templates of pub/sub functions
-  - this file will be automatically generated/modified during the build step, so you do not have to care about this file.
+  - this file will be automatically generated/modified during the build step by analyzing the above file(s). Therefore you do not have to care about this file.
 
 ## Generating header files for custom MsgTypes
 
