@@ -87,12 +87,12 @@ eval ${DOCKERCMD_PRE}mbed-tools deploy${DOCKERCMD_SUF}
 eval ${DOCKERCMD_PRE}mbed-tools configure -m ${TARGET} -t GCC_ARM${DOCKERCMD_SUF}
 
 # generate of header file for template functions of MsgType
-MROS2DIR=../mros2
+MROS2DIR=../../mros2
 TEMPLATESGEN_FILE=${MROS2DIR}/mros2_header_generator/templates_generator.py
 
 echo "INFO: generate header file for template functions of MsgType"
-cd workspace
-python3 ${TEMPLATESGEN_FILE} --app ${APPNAME} --file ${FILENAME[@]}
+cd workspace/${APPNAME}
+python3 ${TEMPLATESGEN_FILE} --outdir . --file ${FILENAME[@]}
 if [ $? -eq 0 ];
 then
   echo "INFO: header fille for template function of ${APPNAME}'s MsgType is successfully generated"
@@ -100,7 +100,7 @@ else
   echo "ERROR: failed to generate header fille for template function of ${APPNAME}'s MsgType"
   exit 1
 fi
-cd ..
+cd ../..
 
 # set the build parameter
 eval ${DOCKERCMD_PRE}cmake -S . -B cmake_build/${TARGET}/develop/GCC_ARM -GNinja${DOCKERCMD_SUF}
