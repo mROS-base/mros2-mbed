@@ -13,6 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: ghcr.io/armmbed/mbed-os-env:master-latest
+    env:
+      APPNAME: echoback_string
     strategy:
       fail-fast: false
       matrix:
