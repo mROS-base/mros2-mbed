@@ -36,6 +36,10 @@ execute_process(COMMAND git submodule update --init --recursive
 add_library(mros2 INTERFACE)
 add_subdirectory(mros2)
 
+execute_process(COMMAND
+  python3 ${CMAKE_CURRENT_SOURCE_DIR}/mros2/mros2_header_generator/templates_generator.py --outdir . --file app.cpp
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/workspace/${APP_NAME})
+
 set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/platform")
 
 target_include_directories(
