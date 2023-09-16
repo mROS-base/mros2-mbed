@@ -1,4 +1,5 @@
-[![build](https://github.com/mROS-base/mros2-mbed/actions/workflows/build.yaml/badge.svg)](https://github.com/mROS-base/mros2-mbed/actions/workflows/build.yaml)
+[![build_app](https://github.com/mROS-base/mros2-mbed/actions/workflows/build_app.yaml/badge.svg)](https://github.com/mROS-base/mros2-mbed/actions/workflows/build_app.yaml)
+[![build_board](https://github.com/mROS-base/mros2-mbed/actions/workflows/build_board.yaml/badge.svg)](https://github.com/mROS-base/mros2-mbed/actions/workflows/build_board.yaml)
 
 # mros2-mbed
 
