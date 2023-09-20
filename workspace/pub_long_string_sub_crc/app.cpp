@@ -58,28 +58,36 @@ const size_t text_size = sizeof(long_text) / 4;
 void userCallback(std_msgs::msg::UInt32 *msg)
 {
   if (msg->data == crc32(long_text, text_size)) {
-      printf("CRC is OK: 0x%0lx\r\n", msg->data);
+      MROS2_INFO("CRC is OK: 0x%0lx", msg->data);
     } else {
-      printf("CRC is NG: 0x%0lx\r\n", msg->data);
+      MROS2_INFO("CRC is NG: 0x%0lx", msg->data);
     }
 }
 
 int main() {
-  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
-  printf("app name: pub_long_string_sub_crc\r\n");
- 
   /* connect to the network */
-  mros2_platform::network_connect();
+  if (mros2_platform::network_connect())
+  {
+    MROS2_ERROR("failed to connect and setup network! aborting,,,");
+    return -1;
+  }
+  else
+  {
+    MROS2_INFO("successfully connect and setup network\r\n---");
+  }
 
+  MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
+  MROS2_INFO("app name: pub_long_string_sub_crc");
+ 
   mros2::init(0, NULL);
-  MROS2_DEBUG("mROS 2 initialization is completed\r\n");
+  MROS2_DEBUG("mROS 2 initialization is completed");
 
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Publisher pub = node.create_publisher<std_msgs::msg::String>("to_linux", 1);
   mros2::Subscriber sub = node.create_subscription<std_msgs::msg::UInt32>("to_stm", 10, userCallback);
 
   osDelay(100);
-  MROS2_INFO("ready to pub/sub message\r\n");
+  MROS2_INFO("ready to pub/sub message\r\n---");
 
   auto msg = std_msgs::msg::String();
 
@@ -88,7 +96,7 @@ int main() {
     memcpy(reinterpret_cast<char *>(&msg.data[0]),
 	   long_text, text_size);    
 
-    printf("publishing message whose CRC(len=%d) is 0x%0lx\r\n",
+    MROS2_INFO("publishing message whose CRC(len=%d) is 0x%0lx",
 	   msg.data.size(), crc32(long_text, sizeof(long_text) / 4));
     pub.publish(msg);
 

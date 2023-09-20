@@ -199,10 +199,10 @@ int OV7670::Init()
 
     int x = ReadReg(0x0a);
     if (x != 0x76) {
-      printf("check id camera error! 0x%x\r\n", x);
+      MROS2_INFO("check id camera error! 0x%x", x);
       return 1;
     } else {
-      printf("check id camera OK! 0x%x\r\n", x);
+      MROS2_INFO("check id camera OK! 0x%x", x);
     }
 
     WriteReg(0x12, 0x08); 
@@ -411,22 +411,30 @@ OV7670 s(PB_9,PB_8,PA_0);
 
 int main(int argc, char* argv[])
 {
-  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
-  printf("app name: pub_camera_image\r\n");
+  /* connect to the network */
+  if (mros2_platform::network_connect())
+  {
+    MROS2_ERROR("failed to connect and setup network! aborting,,,");
+    return -1;
+  }
+  else
+  {
+    MROS2_INFO("successfully connect and setup network\r\n---");
+  }
+
+  MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
+  MROS2_INFO("app name: pub_camera_image");
 
   auto msg = sensor_msgs::msg::Image();
 
-  /* connect to the network */
-  mros2_platform::network_connect();
-
   mros2::init(0, NULL);
-  MROS2_DEBUG("mROS 2 initialization is completed\r\n");
+  MROS2_DEBUG("mROS 2 initialization is completed");
   
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Publisher pub = node.create_publisher<sensor_msgs::msg::Image>("to_linux", 10);
 
   osDelay(100);
-  MROS2_INFO("ready to pub camera image\r\n");
+  MROS2_INFO("ready to pub camera image\r\n---");
   s.Init();
   msg.sec = time(NULL);
   msg.nanosec = 0;
@@ -441,7 +449,7 @@ int main(int argc, char* argv[])
   dcmi_Init((uint32_t)&msg.data[0], image_size);
   
   while (1) {
-    printf("publishing image\r\n");
+    MROS2_INFO("publishing image");
     pub.publish(msg);
     osDelay(100);
   }

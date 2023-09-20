@@ -29,19 +29,27 @@ AnalogIn inputA1(A1);
 #define CONSOLE_ANG 1.0
 
 int main() {
-  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
-  printf("app name: mturtle_teleop_joy\r\n");
-
   /* connect to the network */
-  mros2_platform::network_connect();
+  if (mros2_platform::network_connect())
+  {
+    MROS2_ERROR("failed to connect and setup network! aborting,,,");
+    return -1;
+  }
+  else
+  {
+    MROS2_INFO("successfully connect and setup network\r\n---");
+  }
+
+  MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
+  MROS2_INFO("app name: mturtle_teleop_joy");
 
   mros2::init(0, NULL);
-  MROS2_DEBUG("mROS 2 initialization is completed\r\n");
+  MROS2_DEBUG("mROS 2 initialization is completed");
 
   mros2::Node node = mros2::Node::create_node("mturtle_teleop_joy");
   mros2::Publisher pub = node.create_publisher<geometry_msgs::msg::Twist>("turtle1/cmd_vel", 10);
   osDelay(100);
-  MROS2_INFO("ready to pub/sub message\r\n");
+  MROS2_INFO("ready to pub/sub message\r\n---");
 
   geometry_msgs::msg::Vector3 linear;
   geometry_msgs::msg::Vector3 angular;
