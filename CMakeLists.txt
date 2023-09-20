@@ -24,7 +24,7 @@ else()
 endif()
 message(STATUS "APP_NAME=${APP_NAME}")
 
-# specify your own files for the application
+# specify your own file(s) for the application
 set(APP_SRCS
   workspace/${APP_NAME}/app.cpp
 )
@@ -42,8 +42,11 @@ execute_process(COMMAND git submodule update --init --recursive
 add_library(mros2 INTERFACE)
 add_subdirectory(mros2)
 
+# Generate plaform/templates.hpp from mros2 application code
+## You can add dir(s) in `--indir` if you have several dirs 
+## that contain application code files
 execute_process(COMMAND
-  python3 ${CMAKE_CURRENT_SOURCE_DIR}/mros2/mros2_header_generator/templates_generator.py --outdir ${CMAKE_CURRENT_SOURCE_DIR}/platform --file ${APP_SRCS}
+  python3 ${CMAKE_CURRENT_SOURCE_DIR}/mros2/mros2_header_generator/templates_generator.py --outdir ${CMAKE_CURRENT_SOURCE_DIR}/platform --indir ${CMAKE_CURRENT_SOURCE_DIR}/workspace/${APP_NAME}
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/platform")
@@ -51,7 +54,6 @@ set(MROS2_TARGET_DIR "${PROJECT_SOURCE_DIR}/platform")
 target_include_directories(
   mros2-mbed
   PRIVATE workspace/${APP_NAME}
-  PRIVATE workspace/custom_msgs
   PRIVATE ${MROS2_TARGET_DIR}
 )
 
