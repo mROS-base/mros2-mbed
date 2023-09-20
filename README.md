@@ -3,7 +3,7 @@
 
 # mros2-mbed
 
-mROS 2 (formally `mros2`) realizes a agent-less and lightweight runtime environment compatible with ROS 2 for embedded devices.
+mROS 2 (`mros2` as casually codename) realizes a agent-less and lightweight runtime environment compatible with ROS 2 for embedded devices.
 mROS 2 mainly offers pub/sub APIs compatible with [rclcpp](https://docs.ros.org/en/rolling/p/rclcpp/index.html) for embedded devices.
 
 mROS 2 consists of communication library for pub/sub APIs, RTPS protocol, UDP/IP stack, and real-time kernel.
@@ -36,7 +36,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
       - You can configure them by editing `platform/mros2-platform.h`.
       - Note that we have not confirmed the operation using DHCP setting yet. So you cannot comment out the `#define MROS2_IP_ADDRESS_STATIC` line to assign static IP address.
   - The firewall on the host (Ubuntu) needs to be disabled for ROS 2 (DDS) communication (e.g. `$ sudo ufw disable`).
-  - If the host is connected to the Internet other than wired network (e.g., Wi-Fi), communication with mros2 may not work properly. In that case, please turn off them.
+  - If the host is connected to the Internet with other network adapters, communication with mros2 may not work properly. In that case, please turn off them.
 
 ## Getting Started
 
@@ -274,11 +274,13 @@ Please also check [mROS-base/mros2-host-examples](https://github.com/mROS-base/m
   - And then, subscribe to the topic `/to_linux` and visualize it by `Image View` on the GUI like below.  
     [Movie Sample](https://github-production-user-asset-6210df.s3.amazonaws.com/90823686/243369057-839cf812-eb1d-45bf-820e-e0166253899c.webm)
 
-## Note: File for the application
+## Note: File(s) for the application
 
 The main source of the application is `app.cpp`.
-You can change filename by editing `${APP_SRCS}` in `CMakeLists.txt`.
-Currently, we could not handle multiple files as source code,,,
+You can change and/or add filename by editing `${APP_SRCS}` in `CMakeLists.txt`.
+
+If you have several directories that contain application code files,
+you also need to edit `CMakeLists.txt` (see details in comment).
 
 ## Generating header files for custom MsgTypes
 
@@ -334,6 +336,7 @@ You can now use them in your applicaton like this.
 
 ```
 #include "mros2.hpp"
+#include "mros2-platform.hpp"
 #include "geometry_msgs/msg/vector3.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 
@@ -346,16 +349,19 @@ int main(int argc, char * argv[])
 
 ## Tips 1: Configure the network
 
-`include/rtps/config.h` is the configuration file for embeddedRTPS.
-We may be able to realize the RTPS communication to the appropriate configuration by editting this file.
-
+`platform/rtps/config.h` is the configuration file for embeddedRTPS.
+We may be able to realize the RTPS communication to the appropriate configuration by editting this file.  
 And also, you can configure for lwIP (UDP/IP) by `mbed_app.json`. 
-Currently, we are unable to communicate large size of messages probably due to these configurations. 
 
 We should seek the appropreate configurations or how to fit them to the demand of applications.
 Please let us know about them if you have any opinions or awesome knowledges! 
 
-## Tips 2: Getting started in 5 minutes with the online compiler
+## Tips 2: Development with the latest mros2 repo (a.k.a memo for me)
+
+When using the docker environment for build, it will try to clone `mros2/` dir/repo automatically during the cmake process.
+To prevent this, we can simply clone code from GitHub as the development mode and/or add `#` to the beginning of `mros2.lib`.
+
+## Tips 3: Getting started in 5 minutes with the online compiler
 
 > Caution: 
 > Although you can easily try out the basic features of mros2 online, this environment has not been fully maintained.
@@ -375,7 +381,7 @@ Please feel free to let us know in [Issues on this repository](https://github.co
 ## Submodules and Licenses
 
 The source code of this repository itself is published under [Apache License 2.0](https://github.com/mROS-base/mros2/blob/main/LICENSE).  
-Please note that this repository contains the following stacks as the submodules, and also check their Licenses.
+Please note that this repository requires the following stacks as the submodules, and also check their Licenses.
 
 - [mros2](https://github.com/mROS-base/mros2): the pub/sub APIs compatible with ROS 2 Rclcpp
   - [embeddedRTPS](https://github.com/mROS-base/embeddedRTPS): RTPS communication layer (including lwIP and Micro-CDR)
