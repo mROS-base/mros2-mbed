@@ -284,68 +284,8 @@ you also need to edit `CMakeLists.txt` (see details in comment).
 
 ## Generating header files for custom MsgTypes
 
-You can use almost any [built-in-types in ROS 2](https://docs.ros.org/en/rolling/Concepts/About-ROS-Interfaces.html#field-types) on the embedded device.
-
-In additon, you can define a customized message type (e.g., `Twist.msg`) in the same way as in ROS 2, and use its header file for your application. This section describes how to generate header files for your own MsgTypes (`geometry_msgs::msg::Twist` as an example).
-
-### Prepare .msg files
-
-`.msg` files are simple text files that describe the fields of a ROS message (see [About ROS 2 interface](https://docs.ros.org/en/rolling/Concepts/About-ROS-Interfaces.html)). In mros2, they are used to generate header files for messages in embedded applications.
-
-Prepare `Twist.msg` file and make sure it is in `workspace/custom_msgs/geometry_msgs/msg/`.
-
-```
-$ cat workspace/custom_msgs/geometry_msgs/msg/Twist.msg
-geometry_msgs/msg/Vector3 linear
-geometry_msgs/msg/Vector3 angular
-```
-
-In this example, `Twist` has a nested structure with `Vector3` as a child element. So you also need to prepare its file.
-
-```
-$ cat workspace/custom_msgs/geometry_msgs/msg/Vector3.msg
-float64 x
-float64 y
-float64 z
-```
-
-### Generate header files
-
-To generate header files for `Twist` and `Vector3`, run the following command in `workspace/`.
-
-```
-$ cd workspace
-$ python3 ../mros2/mros2_header_generator/header_generator.py geometry_msgs/msg/Twist.msg
-```
-
-Make sure header files for custom MsgType are generated in `custom_msgs/`.
-
-```
-$ ls -R custom_msgs/
-custom_msgs/:
-geometry_msgs
-
-custom_msgs/geometry_msgs:
-msg
-
-custom_msgs/geometry_msgs/msg:
-twist.hpp  vector3.hpp  Twist.msg  Vector3.msg
-```
-
-You can now use them in your applicaton like this.
-
-```
-#include "mros2.hpp"
-#include "mros2-platform.hpp"
-#include "geometry_msgs/msg/vector3.hpp"
-#include "geometry_msgs/msg/twist.hpp"
-
-int main(int argc, char * argv[])
-{
-<snip.>
-  pub = node.create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
-<snip.>
-```
+If you want to use your own customized message type followed by the ROS 2 manner, please refer to [mros2#generating-header-files-for-custom-msgtypes](https://github.com/mROS-base/mros2#generating-header-files-for-custom-msgtypes) section.
+(this section was moved because it is common feature for mROS 2).
 
 ## Tips 1: Configure the network
 
