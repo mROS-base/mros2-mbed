@@ -26,19 +26,27 @@ void userCallback(geometry_msgs::msg::Pose *msg)
 }
 
 int main() {
-  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
-  printf("app name: sub_pose\r\n");
-
   /* connect to the network */
-  mros2_platform::network_connect();
+  if (mros2_platform::network_connect())
+  {
+    MROS2_ERROR("failed to connect and setup network! aborting,,,");
+    return -1;
+  }
+  else
+  {
+    MROS2_INFO("successfully connect and setup network\r\n---");
+  }
+
+  MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
+  MROS2_INFO("app name: sub_pose");
 
   mros2::init(0, NULL);
-  MROS2_DEBUG("mROS 2 initialization is completed\r\n");
+  MROS2_DEBUG("mROS 2 initialization is completed");
 
   mros2::Node node = mros2::Node::create_node("sub_pose");
   mros2::Subscriber sub = node.create_subscription<geometry_msgs::msg::Pose>("cmd_vel", 10, userCallback);
   osDelay(100);
-  MROS2_INFO("ready to pub/sub message");
+  MROS2_INFO("ready to pub/sub message\r\n---");
 
   mros2::spin();
   return 0;

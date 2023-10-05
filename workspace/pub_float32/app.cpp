@@ -20,19 +20,27 @@
 
 
 int main() {
-  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
-  printf("app name: pub_float32\r\n");
-
   /* connect to the network */
-  mros2_platform::network_connect();
+  if (mros2_platform::network_connect())
+  {
+    MROS2_ERROR("failed to connect and setup network! aborting,,,");
+    return -1;
+  }
+  else
+  {
+    MROS2_INFO("successfully connect and setup network\r\n---");
+  }
+
+  MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
+  MROS2_INFO("app name: pub_float32");
 
   mros2::init(0, NULL);
-  MROS2_DEBUG("mROS 2 initialization is completed\r\n");
+  MROS2_DEBUG("mROS 2 initialization is completed");
 
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Publisher pub = node.create_publisher<std_msgs::msg::Float32>("to_linux", 10);
   osDelay(100);
-  MROS2_INFO("ready to pub/sub message\r\n");
+  MROS2_INFO("ready to pub/sub message\r\n---");
 
   std_msgs::msg::Float32 msg;
   auto publish_count = -0.5;
@@ -43,15 +51,16 @@ int main() {
     pub.publish(msg);
 
     if (0.0 >= msg.data)
-      printf("msg <= 0.0\r\n");
+      MROS2_INFO("msg <= 0.0");
     else if (0.0 < msg.data && msg.data < 0.5)
-      printf("0.0 < msg < 0.5\r\n");
+      MROS2_INFO("0.0 < msg < 0.5");
     else if (0.5 < msg.data && msg.data < 1.0)
-      printf("0.5 < msg < 1.0\r\n");
+      MROS2_INFO("0.5 < msg < 1.0");
     else
-      printf("msg >= 1.0\r\n");
+      MROS2_INFO("msg >= 1.0");
     /*
      * you need to add `"target.printf_lib": "std"` into mbed_app.json
+     * to print float (%f) data
     printf("publishing msg: '%f'\r\n", msg.data);
      */
 

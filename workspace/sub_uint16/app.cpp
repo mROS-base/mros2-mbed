@@ -22,23 +22,31 @@
 
 void userCallback(std_msgs::msg::UInt16 *msg)
 {
-  printf("subscribed msg: '%d'\r\n", msg->data);
+  MROS2_INFO("subscribed msg: '%d'", msg->data);
 }
 
 int main() {
-  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
-  printf("app name: sub_uint16\r\n");
-
   /* connect to the network */
-  mros2_platform::network_connect();
+  if (mros2_platform::network_connect())
+  {
+    MROS2_ERROR("failed to connect and setup network! aborting,,,");
+    return -1;
+  }
+  else
+  {
+    MROS2_INFO("successfully connect and setup network\r\n---");
+  }
+
+  MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
+  MROS2_INFO("app name: sub_uint16");
 
   mros2::init(0, NULL);
-  MROS2_DEBUG("mROS 2 initialization is completed\r\n");
+  MROS2_DEBUG("mROS 2 initialization is completed");
 
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Subscriber sub = node.create_subscription<std_msgs::msg::UInt16>("to_stm", 10, userCallback);
   osDelay(100);
-  MROS2_INFO("ready to pub/sub message\r\n");
+  MROS2_INFO("ready to pub/sub message\r\n---");
 
   mros2::spin();
   return 0;

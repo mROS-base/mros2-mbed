@@ -28,7 +28,7 @@ namespace mros2_platform
 nsapi_error_t network_connect(void)
 {
   EthernetInterface network;
-  nsapi_size_or_error_t result;
+  nsapi_size_or_error_t result = 0;
 
 #ifdef MROS2_IP_ADDRESS_STATIC
   network.set_dhcp(false);
@@ -38,17 +38,20 @@ nsapi_error_t network_connect(void)
 #endif /* MROS2_IP_ADDRESS_STATIC */
   result = network.connect();
 
-  if (result) {
-    printf("Network connection failed: %d\r\n", result);
+  if (result)
+  {
+    MROS2_ERROR("Network connection failed: %d", result);
     return result;
-  } else {
-    printf("Successfully connected to network\r\n");
+  }
+  else
+  {
+    MROS2_DEBUG("Successfully connected to network");
   }
 
   SocketAddress socketAddress;
   network.get_ip_address(&socketAddress);
   const char* ip_address = socketAddress.get_ip_address();
-  printf("  IP Address: %s\r\n", ip_address);
+  MROS2_DEBUG("  IP Address: %s", ip_address);
 
   /* convert IP address to be used in rtps/config.h */
   std::array<uint8_t, 4> ipaddr;

@@ -23,20 +23,28 @@
 
 int main(int argc, char* argv[])
 {
-  printf("%s start!\r\n", MROS2_PLATFORM_NAME);
-  printf("app name: pub_image\r\n");
-
   /* connect to the network */
-  mros2_platform::network_connect();
+  if (mros2_platform::network_connect())
+  {
+    MROS2_ERROR("failed to connect and setup network! aborting,,,");
+    return -1;
+  }
+  else
+  {
+    MROS2_INFO("successfully connect and setup network\r\n---");
+  }
+
+  MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
+  MROS2_INFO("app name: pub_image");
 
   mros2::init(0, NULL);
-  MROS2_DEBUG("mROS 2 initialization is completed\r\n");
+  MROS2_DEBUG("mROS 2 initialization is completed");
   
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Publisher pub = node.create_publisher<sensor_msgs::msg::Image>("to_linux", 10);
 
   osDelay(100);
-  MROS2_INFO("ready to pub image\r\n");
+  MROS2_INFO("ready to pub image\r\n---");
 
   auto msg = sensor_msgs::msg::Image();
 
@@ -54,7 +62,7 @@ int main(int argc, char* argv[])
    std::memcpy(reinterpret_cast<char *>(&msg.data[0]),
 	       mros_image, image_size);    
 
-   printf("publishing image\r\n");
+   MROS2_INFO("publishing image");
    pub.publish(msg);
 
    osDelay(1000);
