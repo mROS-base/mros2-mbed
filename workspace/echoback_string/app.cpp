@@ -18,13 +18,13 @@
 #include "mros2-platform.h"
 #include "std_msgs/msg/string.hpp"
 
-
 void userCallback(std_msgs::msg::String *msg)
 {
   MROS2_INFO("subscribed msg: '%s'", msg->data.c_str());
 }
 
-int main() {
+int main()
+{
   /* connect to the network */
   if (mros2_platform::network_connect())
   {
@@ -50,7 +50,8 @@ int main() {
   MROS2_INFO("ready to pub/sub message\r\n---");
 
   auto count = 0;
-  while (1) {
+  while (1)
+  {
     auto msg = std_msgs::msg::String();
     msg.data = "Hello from " + std::string(MROS2_PLATFORM_NAME) + " onto " + quote(TARGET_NAME) + ": " + std::to_string(count++);
     MROS2_INFO("publishing msg: '%s'", msg.data.c_str());

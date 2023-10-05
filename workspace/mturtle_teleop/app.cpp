@@ -1,5 +1,5 @@
 /* mros2 example
- * Copyright (c) 2021 smorita_emb
+ * Copyright (c) 2022 mROS-base
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,9 @@ AnalogIn inputA1(A1);
 #define CONSOLE_LIN 0.5
 #define CONSOLE_ANG 1.0
 
-
 geometry_msgs::msg::Twist set_twist_val(
-  double linear_x, double linear_y, double linear_z,
-  double angular_x, double angular_y, double angular_z)
+    double linear_x, double linear_y, double linear_z,
+    double angular_x, double angular_y, double angular_z)
 {
   geometry_msgs::msg::Vector3 linear;
   geometry_msgs::msg::Vector3 angular;
@@ -58,7 +57,8 @@ std::string double_to_string(double value)
   return str;
 }
 
-int main() {
+int main()
+{
   MROS2_INFO("%s start!", MROS2_PLATFORM_NAME);
   MROS2_INFO("app name: mturtle_teleop");
 

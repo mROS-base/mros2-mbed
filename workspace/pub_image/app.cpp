@@ -20,8 +20,7 @@
 
 #include "mros_image.h"
 
-
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
   /* connect to the network */
   if (mros2_platform::network_connect())
@@ -39,7 +38,7 @@ int main(int argc, char* argv[])
 
   mros2::init(0, NULL);
   MROS2_DEBUG("mROS 2 initialization is completed");
-  
+
   mros2::Node node = mros2::Node::create_node("mros2_node");
   mros2::Publisher pub = node.create_publisher<sensor_msgs::msg::Image>("to_linux", 10);
 
@@ -48,24 +47,25 @@ int main(int argc, char* argv[])
 
   auto msg = sensor_msgs::msg::Image();
 
-  while (1) {
-   msg.sec = time(NULL);
-   msg.nanosec = 0;
-   msg.frame_id = "frame";
-   msg.height = MROS_IMAGE_HEIGHT;
-   msg.width = MROS_IMAGE_WIDTH;
-   msg.encoding = "rgb8";
-   msg.is_bigendian = 0;
-   msg.step = MROS_IMAGE_WIDTH * 3;
-   size_t image_size = sizeof(mros_image);
-   msg.data.resize(image_size);
-   std::memcpy(reinterpret_cast<char *>(&msg.data[0]),
-	       mros_image, image_size);    
+  while (1)
+  {
+    msg.sec = time(NULL);
+    msg.nanosec = 0;
+    msg.frame_id = "frame";
+    msg.height = MROS_IMAGE_HEIGHT;
+    msg.width = MROS_IMAGE_WIDTH;
+    msg.encoding = "rgb8";
+    msg.is_bigendian = 0;
+    msg.step = MROS_IMAGE_WIDTH * 3;
+    size_t image_size = sizeof(mros_image);
+    msg.data.resize(image_size);
+    std::memcpy(reinterpret_cast<char *>(&msg.data[0]),
+                mros_image, image_size);
 
-   MROS2_INFO("publishing image");
-   pub.publish(msg);
+    MROS2_INFO("publishing image");
+    pub.publish(msg);
 
-   osDelay(1000);
+    osDelay(1000);
   }
 
   mros2::spin();

@@ -1,5 +1,5 @@
 /* mros2 example
- * Copyright (c) 2021 smorita_emb
+ * Copyright (c) 2022 mROS-base
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@
 #include "geometry_msgs/msg/vector3.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 
-
-int main() {
+int main()
+{
   /* connect to the network */
   if (mros2_platform::network_connect())
   {
@@ -50,12 +50,12 @@ int main() {
   auto publish_count = 0;
   while (1)
   {
-    linear.x = publish_count/1.0;
-    linear.y = publish_count/1.0;
-    linear.z = publish_count/1.0;  
-    angular.x = publish_count/1.0;
-    angular.y = publish_count/1.0;
-    angular.z = publish_count/1.0;
+    linear.x = publish_count / 1.0;
+    linear.y = publish_count / 1.0;
+    linear.z = publish_count / 1.0;
+    angular.x = publish_count / 1.0;
+    angular.y = publish_count / 1.0;
+    angular.z = publish_count / 1.0;
     twist.linear = linear;
     twist.angular = angular;
     MROS2_INFO("publishing Twist msg!!");

@@ -1,5 +1,5 @@
 /* mros2 example
- * Copyright (c) 2021 smorita_emb
+ * Copyright (c) 2022 mROS-base
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@
 #include "mros2-platform.h"
 #include "std_msgs/msg/float32.hpp"
 
-
-int main() {
+int main()
+{
   /* connect to the network */
   if (mros2_platform::network_connect())
   {
