@@ -55,7 +55,7 @@ nsapi_error_t network_connect(void)
 
   /* convert IP address to be used in rtps/config.h */
   std::array<uint8_t, 4> ipaddr;
-  sscanf(ip_address, "%d.%d.%d.%d", &ipaddr[0], &ipaddr[1], &ipaddr[2], &ipaddr[3]);
+  sscanf(ip_address, "%hhd.%hhd.%hhd.%hhd", &ipaddr[0], &ipaddr[1], &ipaddr[2], &ipaddr[3]);
 
   mros2::setIPAddrRTPS(ipaddr);
 

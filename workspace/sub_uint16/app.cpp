@@ -1,5 +1,5 @@
 /* mros2 example
- * Copyright (c) 2021 smorita_emb
+ * Copyright (c) 2022 mROS-base
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,13 @@
 #include "mros2-platform.h"
 #include "std_msgs/msg/u_int16.hpp"
 
-
 void userCallback(std_msgs::msg::UInt16 *msg)
 {
   MROS2_INFO("subscribed msg: '%d'", msg->data);
 }
 
-int main() {
+int main()
+{
   /* connect to the network */
   if (mros2_platform::network_connect())
   {

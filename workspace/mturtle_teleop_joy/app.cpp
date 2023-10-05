@@ -1,5 +1,5 @@
 /* mros2 example
- * Copyright (c) 2021 smorita_emb
+ * Copyright (c) 2022 mROS-base
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 #include "geometry_msgs/msg/vector3.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 
-
 AnalogIn inputA0(A0);
 AnalogIn inputA1(A1);
 
@@ -28,7 +27,8 @@ AnalogIn inputA1(A1);
 #define CONSOLE_LIN 0.5
 #define CONSOLE_ANG 1.0
 
-int main() {
+int main()
+{
   /* connect to the network */
   if (mros2_platform::network_connect())
   {
