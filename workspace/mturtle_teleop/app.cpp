@@ -92,7 +92,6 @@ int main()
   auto publish_count = 10;
   double speed = 0.5;
   double turn = 1.0;
-  char c;
   while (1)
   {
     if (publish_count < 10)
@@ -111,9 +110,8 @@ int main()
       MROS2_INFO("q/z : increase/decrease max speeds by 10 percent");
       MROS2_INFO("w/x : increase/decrease only linear speed by 10 percent");
       MROS2_INFO("e/c : increase/decrease only angular speed by 10 percent");
-      MROS2_INFO("currently: speed %s / turn %s",
+      MROS2_INFO("currently: speed %s / turn %s\r\n",
                  double_to_string(speed).c_str(), double_to_string(turn).c_str());
-      MROS2_INFO("");
     }
 
     char c;
