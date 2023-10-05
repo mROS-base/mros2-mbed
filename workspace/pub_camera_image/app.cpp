@@ -107,7 +107,7 @@ void OV7670::WriteBy(int addr)
   _siod = 1;
   for (int i = 0; i < 8; i++)
   {
-    tempo = addr >> 7 - i;
+    tempo = addr >> (7 - i);
     tempo = tempo & 0x01;
     _sioc = 0;
     _siod = tempo;
