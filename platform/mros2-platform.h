@@ -6,14 +6,10 @@
 #include "mbed.h"
 #include "EthernetInterface.h"
 
-/*
- * Caution:
- *  We have not confirmed the operation using DHCP setting yet.
- *  So you cannot comment out the below line to assign static IP address.
- */
+/* Comment out the below line enables DHCP connection */
 #define MROS2_IP_ADDRESS_STATIC
 
-/* You need to set static IP Address and network config */
+/* Set network config when using static IP (default usage) */
 #ifdef MROS2_IP_ADDRESS_STATIC
 #define MROS2_IP_ADDRESS ("192.168.11.2") /* IP address */
 #define MROS2_SUBNET_MASK ("255.255.255.0") /* Subnet mask */

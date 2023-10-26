@@ -29,12 +29,12 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
   - [ROS 2 Humble Hawksbill](https://docs.ros.org/en/humble/index.html) on Ubuntu 22.04 LTS
   - [ROS 2 Foxy Fitzroy](https://docs.ros.org/en/foxy/index.html) on Ubuntu 20.04 LTS
 - Network setting
-  - Make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board.
+  - When running by default, make sure both the device and the host are connected to the wired network with the following setting, since they are statically configured to the board.
     - IP address: 192.168.11.x (.2 will be assigned to the board)
     - Netmask: 255.255.255.0
     - Gateway: 192.168.11.1
-      - You can configure them by editing `platform/mros2-platform.h`.
-      - Note that we have not confirmed the operation using DHCP setting yet. So you cannot comment out the `#define MROS2_IP_ADDRESS_STATIC` line to assign static IP address.
+      - You can configure these setting to yours by editing `platform/mros2-platform.h`.
+      - If you want to use DHCP connection, please comment out the `#define MROS2_IP_ADDRESS_STATIC` line in `platform/mros2-platform.h`.
   - The firewall on the host (Ubuntu) needs to be disabled for ROS 2 (DDS) communication (e.g. `$ sudo ufw disable`).
   - If the host is connected to the Internet with other network adapters, communication with mros2 may not work properly. In that case, please turn off them.
 
@@ -291,7 +291,8 @@ If you want to use your own customized message type followed by the ROS 2 manner
 
 `platform/rtps/config.h` is the configuration file for embeddedRTPS.
 We may be able to realize the RTPS communication to the appropriate configuration by editting this file.  
-And also, you can configure for lwIP (UDP/IP) by `mbed_app.json`. 
+For lwIP (UDP/IP) configuration, you may need to edit `mbed_app.json` according to your application requirement.
+Note that we have added some cofigurations for mros2 (UDP and RTPS) communication.
 
 We should seek the appropreate configurations or how to fit them to the demand of applications.
 Please let us know about them if you have any opinions or awesome knowledges! 
