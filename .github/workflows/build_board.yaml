@@ -24,6 +24,7 @@ jobs:
         - DISCO_F769NI
         - GR_MANGO
         - NUCLEO_F429ZI
+        - NUCLEO_F746ZG
         - NUCLEO_F767ZI
         - NUCLEO_H743ZI2
     steps:

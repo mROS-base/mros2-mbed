@@ -19,6 +19,7 @@ Please also check [mros2 repository](https://github.com/mROS-base/mros2) for mor
       - [STM32 NUCLEO-H743ZI2](https://www.st.com/en/evaluation-tools/nucleo-h743zi.html)
     - These boards below are also confirmed but not always supported in the latest version (due to our development resources,,,).
       - [STM32 NUCLEO-F429ZI](https://www.st.com/en/evaluation-tools/nucleo-f429zi.html)
+      - [STM32 NUCLEO-F746ZG](https://www.st.com/en/evaluation-tools/nucleo-f746zg.html)
       - [STM32 F746NG-Discovery](https://www.st.com/ja/evaluation-tools/32f746gdiscovery.html)
       - [STM32 F769NI-Discovery](https://www.st.com/ja/evaluation-tools/32f769idiscovery.html)
       - [Seeed Arch Max V1.1](https://wiki.seeedstudio.com/Arch_Max_v1.1/)
@@ -55,6 +56,7 @@ cd mros2-mbed
 # | NUCLEO-F767ZI     | NUCLEO_F767ZI  |
 # | NUCLEO-H743ZI2    | NUCLEO_H743ZI2 |
 # | NUCLEO-F429ZI     | NUCLEO_F429ZI  |
+# | NUCLEO-F746ZG     | NUCLEO_F746ZG  |
 # | F746NG-Discovery  | DISCO_F746NG   |
 # | F769NI-Discovery  | DISCO_F769NI   |
 # | Arch Max v1.1     | ARCH_MAX       |
